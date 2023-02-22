@@ -5,7 +5,7 @@ Gestion de l'appel
 git clone https://github.com/bouboucouscous/ProjetWeb.git  
 git config --global user.name "Your Name"  
   
-##Fonctionnement pour ajouter des modifications :  
+## Fonctionnement pour ajouter des modifications :  
 git checkout -b nomdeTaBranche
 git add .  
 git commit -m "ce que tu as ajouté"
