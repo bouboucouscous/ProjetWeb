@@ -1,7 +1,5 @@
 # ProjetWeb
 Sujet du projet :  
+Gestion de l'appel  
 ## Récupérer le projet
-git init  
-git remote add origin https://github.com/bouboucouscous/ProjetWeb.git  
-git branch -M main  
-git fetch
+git clone https://github.com/bouboucouscous/ProjetWeb.git  
