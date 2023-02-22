@@ -6,10 +6,10 @@ git clone https://github.com/bouboucouscous/ProjetWeb.git
 git config --global user.name "Your Name"  
   
 ## Fonctionnement pour ajouter des modifications :  
-git checkout -b nomdeTaBranche
+git checkout -b nomdeTaBranche  
 git add .  
-git commit -m "ce que tu as ajouté"
-git push --set-upstream origin nomdeTaBranche
+git commit -m "ce que tu as ajouté"  
+git push --set-upstream origin nomdeTaBranche  
 
 ### si branche existante
 git add .  
