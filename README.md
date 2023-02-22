@@ -26,4 +26,4 @@ git pull
 git checkout nomdeTaBranche  
 git rebase main  
 #### lors du git push faire
-push --force  
+git push --force  
