@@ -1,0 +1,65 @@
+body {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    height: 100%;
+    margin:0;
+    padding:0;
+    background-size: 100% ;
+    width:100%;
+}
+body:before {
+    content: "";
+    position: fixed;
+    height: 100%; width: 100%;
+    background: url(image/3il1.jpg);
+    background-size: cover;     
+    -webkit-filter: blur(15px);
+    -webkit-background-size: cover; /* pour Chrome et Safari */
+    -moz-background-size: cover; /* pour Firefox */
+    -o-background-size: cover; /* pour Opera */
+    background-size: cover; /* version standardisée */
+    z-index: -1;
+}
+.carrecolorer {
+    width:400px;
+    margin:0 auto;
+    margin-top:10%;
+}
+form {
+    width:100%;
+    padding: 20px;
+    border: 1px solid #174194;
+    background: rgba(23, 65, 148,0.6);
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.logo{
+    width : 100px;
+    height : 100px;
+    display: block;
+    margin: auto;
+}
+
+.inputModerne{
+    background: transparent;
+    border: 0;
+    border-bottom: 3px solid #e84d0d;
+    display: block;
+    margin: auto;
+}
+
+::placeholder{
+    color:white;
+}
+
+.buttonCo{
+    background-color: #e84d0d;
+    display: block;
+    margin: auto;    
+    border: 3px solid #e84d0d;
+}
+
+input[value]{
+    font-size: 25px;
+    font-weight: bold;
+}
