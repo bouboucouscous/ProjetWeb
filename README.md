@@ -4,4 +4,4 @@ Sujet du projet :
 git init  
 git remote add origin https://github.com/bouboucouscous/ProjetWeb.git  
 git branch -M main  
-git push -u origin main  
+git fetch
