@@ -1,5 +1,5 @@
 # ProjetWeb
-Sujet du projet : 
-git remote add origin https://github.com/bouboucouscous/ProsatgeRendu.git
-git branch -M main
-git push -u origin main
+Sujet du projet :  
+git remote add origin https://github.com/bouboucouscous/ProjetWeb.git  
+git branch -M main  
+git push -u origin main  
