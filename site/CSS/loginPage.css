@@ -6,14 +6,17 @@ body {
     padding:0;
     background-size: 100% ;
     width:100%;
+    font-family: Calibri;
 }
-body:before {
+body::before {
     content: "";
     position: fixed;
     height: 100%; width: 100%;
-    background: url(image/3il1.jpg);
-    background-size: cover;     
-    -webkit-filter: blur(15px);
+    background: linear-gradient(
+        rgba(23, 65, 148,0.5), 
+        rgba(215, 82, 21, 0.4)
+      ),url(image/3il1.jpg);
+    filter: blur(10px);
     -webkit-background-size: cover; /* pour Chrome et Safari */
     -moz-background-size: cover; /* pour Firefox */
     -o-background-size: cover; /* pour Opera */
@@ -31,6 +34,7 @@ form {
     border: 1px solid #174194;
     background: rgba(23, 65, 148,0.6);
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    animation: 0.8s linear slidein;
 }
 
 .logo{
@@ -44,12 +48,19 @@ form {
     background: transparent;
     border: 0;
     border-bottom: 3px solid #e84d0d;
+    
     display: block;
     margin: auto;
 }
 
 ::placeholder{
     color:white;
+}
+input[type=text] {
+    color: white;
+}
+input[type=password] {
+    color: white;
 }
 
 .buttonCo{
@@ -62,4 +73,24 @@ form {
 input[value]{
     font-size: 25px;
     font-weight: bold;
+    color: antiquewhite;
 }
+
+.mdpOublie{
+    padding-top: 5%;
+    color: #ffffff;
+    display: block;
+    text-align: center;
+    animation: 0.8s linear slidein;
+}
+
+@keyframes slidein {
+    from {transform: translateY(-10%);}
+    to   { transform: translateY(0%); }
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+  }
