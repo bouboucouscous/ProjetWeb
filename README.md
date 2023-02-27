@@ -3,6 +3,7 @@ Sujet du projet :
 Gestion de l'appel  
 ## Récupérer le projet
 git clone https://github.com/bouboucouscous/ProjetWeb.git  
+git init  
 git fetch  
 git config --global user.name "Your Name"  
   
