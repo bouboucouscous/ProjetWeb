@@ -16,8 +16,9 @@
                 return 2;
             $id = $nom . $prenom[0];
             $idBase = $id;
+            $indice = 0;
             $Bdd = new ConnexionBdd();
-            while($Bdd->userExist($id)){
+            while($Bdd->userExist($id)== true){
                 $indice = $indice + 1;
                 $id = $idBase.$indice;
             }        
@@ -26,47 +27,56 @@
 
         public function creer_classe($nom)
         {
+            if($nom == NULL)
+                return 2;
             $Bdd = new ConnexionBdd();
-            $tableID = $Bdd->SelectClasseID();
+            $nomBase = $nom;
             $indice = 0;
-            foreach($tableID as $uneLigne)
-            {
-                if($val = strstr($uneLigne['idClasse'],$nom)){
-                    if($indice <= substr($uneLigne['idClasse'], strlen($nom)))
-                    {
-                        $indice = $indice + 1;
-                    }
-                }
-            }
-            if($indice > 0)
-            {   
-                $indice = $indice + 1 ;
-                $nom = $nom.$indice;
+            while($Bdd->classeExist($nom)==true){
+                $indice = $indice +1;
+                $nom = $nomBase.$indice;
             }
             $Bdd->InsertClasse($nom);
         }
 
         public function creer_cours($nom,$classe,$date,$prof)
         {
+            if($nom == NULL)
+                return 2;
+            if($classe == NULL)
+                return 2;
+            if($date == NULL)
+                return 2;
+            if($prof == NULL)
+                return 2;
             $Bdd = new ConnexionBdd();
-            //nom
-            $tableCoursID = $Bdd->SelectCoursID();
+            //check name
+            $nomBase = $nom;
             $indice = 0;
-            foreach($tableID as $uneLigne)
-            {
-                if($val = strstr($uneLigne['idClasse'],$nom)){
-                    if($indice <= substr($uneLigne['idClasse'], strlen($nom)))
-                    {
-                        $indice = $indice + 1;
-                    }
-                }
+            while($Bdd->coursExist($nom)==true){
+                $indice = $indice +1;
+                $nom = $nomBase.$indice;
             }
-            if($indice > 0)
-            {   
-                $indice = $indice + 1 ;
-                $nom = $nom.$indice;
-            }
+            if(!$Bdd->classeExist($classe)==true)
+                return 2;
+            if(!$Bdd->userExist($prof)==true)
+                return 2;
+            if(!strcmp($Bdd->userRole($prof),"Professeur"))
+                return 2;
             $Bdd->InsertCours($nom,$classe,$date,$prof);
+        }
+
+        public function insertStudentClasse($student,$classe){
+            if($student == NULL)
+                return 2;
+            $Bdd = new ConnexionBdd();
+            if($Bdd->userExist($student)==false)
+                return 2;
+            if($Bdd->classeExist($classe)==false)
+                return 2;
+            if(!strcmp($Bdd->userRole($student),'Eleve'))
+                return 2;
+            $Bdd->InsertStudentInClasse($student,$classe);
         }
     }
 
@@ -84,26 +94,6 @@
             }
             return $Conn;
         }
-
-        function SelectLoginID(){
-            $Conn = $this->ConnectBDD();
-            $texteRequete = "select identifiantLogin from Login";	
-            $requete = $Conn->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-	        return $tabRes;
-        } 
-        
-        function SelectClasseID(){
-            $Conn = $this->ConnectBDD();
-            $texteRequete = "select idClasse from Classe";	
-            $requete = $Conn->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-	        return $tabRes;
-        } 
 
         function InsertUser($id,$nom,$prenom,$email,$role,$password){
             $sql ="INSERT INTO Login (identifiantLogin, nom, prenom, email, role, password)
@@ -138,6 +128,54 @@
             }  
         }
 
+        function InsertStudentInClasse($student,$classe){
+            $sql ="UPDATE login
+            SET idClasse = '".$classe."'
+            WHERE identifiantLogin = ".$student."";
+            $Conn = $this->ConnectBDD();
+            if ($Conn->query($sql) == TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $Conn->error;
+            }  
+        }
+
+        function classeExist($id)
+        {
+            $bool = false;
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select idClasse from Classe";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            foreach($tabRes as $uneLigne)
+            {
+                if(strcmp($uneLigne['idClasse'],$id)==0){
+                    $bool = true;
+                }
+            }
+            return $bool;
+        }
+
+        function coursExist($id)
+        {
+            $bool = false;
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select idCours from Cours";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            foreach($tabRes as $uneLigne)
+            {
+                if(strcmp($uneLigne['idCours'],$id)==0){
+                    $bool = true;
+                }
+            }
+            return $bool;
+        }
+
         function userExist($id)
         {
             $bool = false;
@@ -149,7 +187,8 @@
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
             foreach($tabRes as $uneLigne)
             {
-                if(strcmp($uneLigne['identifiantLogin'],$id)){
+                if(strcmp($uneLigne['identifiantLogin'],$id)==0){
+                    echo "Error: " . $id . "<br>";
                     $bool = true;
                 }
             }
@@ -167,8 +206,8 @@
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
             foreach($tabRes as $uneLigne)
             {
-                if(strcmp($uneLigne['identifiantLogin'],$id)){
-                    if(strcmp($uneLigne['password'],$pass)){
+                if(strcmp($uneLigne['identifiantLogin'],$id)==0){
+                    if(strcmp($uneLigne['password'],$pass)==0){
                         $bool = true;
                     }
                 }
