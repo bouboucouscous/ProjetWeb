@@ -6,25 +6,21 @@
                 return 2;
             if($prenom == NULL)
                 return 2;
-            if()
-            $id = $nom . $prenom[0];
-            $Bdd = new ConnexionBdd();
-            $tableID = $Bdd->SelectLoginID();
-            $indice = 0;
-            foreach($tableID as $uneLigne)
-            {
-                if($val = strstr($uneLigne['identifiantLogin'],$id)){
-                    if($indice <= substr($uneLigne['identifiantLogin'], strlen($id)))
-                    {
-                        $indice = $indice + 1;
-                    }
-                }
+            if($email == NULL)
+                return 2;
+            if(strcmp($role,"Eleve") || strcmp($role,"Admin") || strcmp($role,"Professeur")){}
+            else{
+                return 2;
             }
-            if($indice > 0)
-            {   
-                $indice = $indice + 1 ;
-                $id = $id.$indice;
-            }         
+            if($password == NULL)
+                return 2;
+            $id = $nom . $prenom[0];
+            $idBase = $id;
+            $Bdd = new ConnexionBdd();
+            while($Bdd->userExist($id)){
+                $indice = $indice + 1;
+                $id = $idBase.$indice;
+            }        
             $Bdd->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
@@ -144,7 +140,7 @@
 
         function userExist($id)
         {
-            $bool = 0;
+            $bool = false;
             $Conn = $this->ConnectBDD();
             $texteRequete = "select identifiantLogin from Login";
             $requete = $Conn->prepare($texteRequete);
@@ -154,7 +150,27 @@
             foreach($tabRes as $uneLigne)
             {
                 if(strcmp($uneLigne['identifiantLogin'],$id)){
-                    $bool = 1;
+                    $bool = true;
+                }
+            }
+            return $bool;
+        }
+
+        function userCheckPass($id,$pass)
+        {
+            $bool = false;
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select identifiantLogin, password from Login";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            foreach($tabRes as $uneLigne)
+            {
+                if(strcmp($uneLigne['identifiantLogin'],$id)){
+                    if(strcmp($uneLigne['password'],$pass)){
+                        $bool = true;
+                    }
                 }
             }
             return $bool;
