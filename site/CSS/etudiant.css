@@ -1,0 +1,10 @@
+li{
+    list-style-type:"\1F621";
+    list-style-position: inside;
+    text-indent: 10px;
+}
+
+.date{
+    font-weight: bold;
+    text-indent: 10px;
+}
