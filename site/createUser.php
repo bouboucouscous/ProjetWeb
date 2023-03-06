@@ -22,7 +22,7 @@
     </form>
 
     <?php
-      require_once('createUser.php');
+      require_once('../CommBdd/admin.php');
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $nom = $_POST['nom'];
@@ -30,8 +30,8 @@
           $email = $_POST['email'];
           $role = $_POST['username'];
           $password = $_POST['password'];
-
-          creer_user($nom, $prenom, $email, $role, $password);
+          $admin = new Admin();
+          $admin->creer_user($nom, $prenom, $email, $role, $password);
 
           echo "<p>Utilisateur créé avec succès.</p>";
       }
