@@ -31,8 +31,7 @@
         <a href="#" onclick="createTeam()">Créer groupe</a>
     </div>
     <div class="carreblanc">
-        <iframe id="accesPageByMenu" class="accesPageByMenu" src="createUser.html">
-        </iframe>
+        <iframe id="accesPageByMenu" class="accesPageByMenu" src="createUser.php"></iframe>
     </div>
 </body>
 </html>

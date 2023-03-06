@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <title></title>
+    <link rel="stylesheet" href="CSS/formAdmin.css">
     <script src="JS/script.js"></script>
     <script src="JS/admin.js"></script>
 </head>
