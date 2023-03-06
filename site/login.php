@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title></title>    
-    <link rel="stylesheet" href="CSS/bootstrap.min.css">
+    <link rel="stylesheet" href="CSS/bootstrap.min.css">    
+    <link rel="stylesheet" href="CSS/background.css">
     <link rel="stylesheet" href="CSS/loginPage.css">
 </head>
 <body>

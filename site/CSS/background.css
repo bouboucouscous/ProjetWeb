@@ -1,0 +1,25 @@
+body {
+    position: absolute;
+    top: 0; bottom: 0; left: 0; right: 0;
+    height: 100%;
+    margin:0;
+    padding:0;
+    background-size: 100% ;
+    width:100%;
+    font-family: Calibri;
+}
+body::before {
+    content: "";
+    position: fixed;
+    height: 100%; width: 100%;
+    background: linear-gradient(
+        rgba(23, 65, 148,0.5), 
+        rgba(215, 82, 21, 0.4)
+      ),url(image/3il1.jpg);
+    filter: blur(10px);
+    -webkit-background-size: cover; /* pour Chrome et Safari */
+    -moz-background-size: cover; /* pour Firefox */
+    -o-background-size: cover; /* pour Opera */
+    background-size: cover; /* version standardisée */
+    z-index: -1;
+}
