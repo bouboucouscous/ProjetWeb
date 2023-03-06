@@ -19,8 +19,7 @@
             {   
                 $indice = $indice + 1 ;
                 $id = $id.$indice;
-            }
-            
+            }         
             $Bdd->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
@@ -69,5 +68,15 @@
             } else {
                 echo "Error: " . $sql . "<br>" . $Conn->error;
             }           
+        }
+
+        function getIdAndRole(){
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select identifiantLogin, role from Login";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+	        return $tabRes;
         }
     }
