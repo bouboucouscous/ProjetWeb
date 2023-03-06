@@ -2,6 +2,11 @@
     class Admin{
         public function creer_user($nom,$prenom,$email,$role,$password)
         {
+            if($nom == NULL)
+                return 2;
+            if($prenom == NULL)
+                return 2;
+            if()
             $id = $nom . $prenom[0];
             $Bdd = new ConnexionBdd();
             $tableID = $Bdd->SelectLoginID();
@@ -137,13 +142,38 @@
             }  
         }
 
-        function getIdAndRole(){
+        function userExist($id)
+        {
+            $bool = 0;
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select identifiantLogin from Login";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            foreach($tabRes as $uneLigne)
+            {
+                if(strcmp($uneLigne['identifiantLogin'],$id)){
+                    $bool = 1;
+                }
+            }
+            return $bool;
+        }
+
+        function userRole($id){
+            $role = NULL;
             $Conn = $this->ConnectBDD();
             $texteRequete = "select identifiantLogin, role from Login";
             $requete = $Conn->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-	        return $tabRes;
+            foreach($tabRes as $uneLigne)
+            {
+                if(strcmp($uneLigne['identifiantLogin'],$id)){
+                    $role = $uneLigne['role'];
+                }
+            }
+            return $role;
         }
     }
