@@ -23,14 +23,49 @@
             $Bdd->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
-        public function creer_groupe($nom)
+        public function creer_classe($nom)
         {
-            
+            $Bdd = new ConnexionBdd();
+            $tableID = $Bdd->SelectClasseID();
+            $indice = 0;
+            foreach($tableID as $uneLigne)
+            {
+                if($val = strstr($uneLigne['idClasse'],$nom)){
+                    if($indice <= substr($uneLigne['idClasse'], strlen($nom)))
+                    {
+                        $indice = $indice + 1;
+                    }
+                }
+            }
+            if($indice > 0)
+            {   
+                $indice = $indice + 1 ;
+                $nom = $nom.$indice;
+            }
+            $Bdd->InsertClasse($nom);
         }
 
-        public function creer_cours($nom)
+        public function creer_cours($nom,$classe,$date,$prof)
         {
-            
+            $Bdd = new ConnexionBdd();
+            //nom
+            $tableCoursID = $Bdd->SelectCoursID();
+            $indice = 0;
+            foreach($tableID as $uneLigne)
+            {
+                if($val = strstr($uneLigne['idClasse'],$nom)){
+                    if($indice <= substr($uneLigne['idClasse'], strlen($nom)))
+                    {
+                        $indice = $indice + 1;
+                    }
+                }
+            }
+            if($indice > 0)
+            {   
+                $indice = $indice + 1 ;
+                $nom = $nom.$indice;
+            }
+            $Bdd->InsertCours($nom,$classe,$date,$prof);
         }
     }
 
@@ -57,7 +92,17 @@
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
 	        return $tabRes;
-        }       
+        } 
+        
+        function SelectClasseID(){
+            $Conn = $this->ConnectBDD();
+            $texteRequete = "select idClasse from Classe";	
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+	        return $tabRes;
+        } 
 
         function InsertUser($id,$nom,$prenom,$email,$role,$password){
             $sql ="INSERT INTO Login (identifiantLogin, nom, prenom, email, role, password)
@@ -68,6 +113,28 @@
             } else {
                 echo "Error: " . $sql . "<br>" . $Conn->error;
             }           
+        }
+
+        function InsertClasse($nom){
+            $sql ="INSERT INTO Classe (idClasse)
+            VALUES ('".$nom."'')";
+            $Conn = $this->ConnectBDD();
+            if ($Conn->query($sql) == TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $Conn->error;
+            }  
+        }
+
+        function InsertCours($nom,$classe,$date,$prof){
+            $sql ="INSERT INTO Classe (idClasse)
+            VALUES ('".$nom."'')";
+            $Conn = $this->ConnectBDD();
+            if ($Conn->query($sql) == TRUE) {
+                echo "New record created successfully";
+            } else {
+                echo "Error: " . $sql . "<br>" . $Conn->error;
+            }  
         }
 
         function getIdAndRole(){
