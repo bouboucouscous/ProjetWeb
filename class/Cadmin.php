@@ -1,20 +1,36 @@
 <?php
-    include_once('Communication.php');
-    class Admin{
+    include_once('CCommunication.php');
+    class Admin extends CommBdd{
+
+        private $IdAdmin;
+        private $passwordAdmin;
+
+        public function Admin($admin,$password){
+            $Bdd = new CommBdd();
+            if($Bdd->userExist($admin)==false)
+                throw new Exception("L'utilisateur n'existe pas");
+            if(strcmp($Bdd->userRole($admin),"Admin")!=0)
+                throw new Exception("L'utilisateur n'est pas un admin");
+            if($Bdd->user($admin)==false)
+                throw new Exception("Le mot de passe ne correspond pas");
+            $this.$IdAdmin = $admin ;
+            $this.$passwordAdmin = password_hash($password,PASSWORD_DEFAULT);
+        }
+
         public function creer_user($nom,$prenom,$email,$role,$password)
         {
             if($nom == NULL)
-                return 2;
+                throw new Exception('Le nom est Null');
             if($prenom == NULL)
-                return 2;
+                throw new Exception('Le prenom est Null');
             if($email == NULL)
-                return 2;
-            if(strcmp($role,"Eleve") || strcmp($role,"Admin") || strcmp($role,"Professeur")){}
+                throw new Exception('L\'email est Null');
+            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
             else{
-                return 2;
+                throw new Exception('Le role n\'est pas dans la liste accepté');
             }
             if($password == NULL)
-                return 2;
+                throw new Exception('Le mot de passe est Null');
             $id = $nom . $prenom[0];
             $idBase = $id;
             $indice = 0;
@@ -22,14 +38,15 @@
             while($Bdd->userExist($id)== true){
                 $indice = $indice + 1;
                 $id = $idBase.$indice;
-            }        
+            }   
+            $password = password_hash($password,PASSWORD_DEFAULT);
             $Bdd->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
         public function creer_classe($nom)
         {
             if($nom == NULL)
-                return 2;
+                throw new Exception('Le nom est Null');
             $Bdd = new CommBdd();
             $nomBase = $nom;
             $indice = 0;
@@ -43,13 +60,13 @@
         public function creer_cours($nom,$classe,$date,$prof)
         {
             if($nom == NULL)
-                return 2;
+                throw new Exception('Le nom du cours est Null');
             if($classe == NULL)
-                return 2;
+                throw new Exception('Le nom de la classe est Null');
             if($date == NULL)
-                return 2;
+                throw new Exception('La date est Null');
             if($prof == NULL)
-                return 2;
+                throw new Exception('Le nom du professeur est Null');
             $Bdd = new CommBdd();
             //check name
             $nomBase = $nom;
@@ -59,24 +76,24 @@
                 $nom = $nomBase.$indice;
             }
             if(!$Bdd->classeExist($classe)==true)
-                return 2;
+                throw new Exception('La classe n\'éxiste pas');
             if(!$Bdd->userExist($prof)==true)
-                return 2;
+                throw new Exception('Le professeur n\'éxiste pas');
             if(!strcmp($Bdd->userRole($prof),"Professeur"))
-                return 2;
+                throw new Exception('Le professeur désigné n\'est pas professeur');
             $Bdd->InsertCours($nom,$classe,$date,$prof);
         }
 
         public function insertStudentClasse($student,$classe){
             if($student == NULL)
-                return 2;
+                throw new Exception('L\'édudiant est Null');
             $Bdd = new CommBdd();
             if($Bdd->userExist($student)==false)
-                return 2;
+                throw new Exception('L\'étudiant n\'éxiste pas');
             if($Bdd->classeExist($classe)==false)
-                return 2;
+                throw new Exception('La classe n\'éxiste pas');
             if(!strcmp($Bdd->userRole($student),'Eleve'))
-                return 2;
+                throw new Exception('L\'étudiant n\est pas un étudiant');
             $Bdd->InsertStudentInClasse($student,$classe);
         }
     }
