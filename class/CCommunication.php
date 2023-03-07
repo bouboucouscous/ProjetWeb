@@ -14,7 +14,7 @@
             return $Conn;
         }
 
-        private function InsertUser($id,$nom,$prenom,$email,$role,$password){
+        protected function InsertUser($id,$nom,$prenom,$email,$role,$password){
             $sql ="INSERT INTO Login (identifiantLogin, nom, prenom, email, role, password)
             VALUES ('".$id."', '".$nom."', '".$prenom."', '".$email."', '".$role."', '".$password."')";
             $Conn = $this->ConnectBDD();
@@ -25,7 +25,7 @@
             }           
         }
 
-        private function InsertClasse($nom){
+        protected function InsertClasse($nom){
             $sql ="INSERT INTO Classe (idClasse)
             VALUES ('".$nom."'')";
             $Conn = $this->ConnectBDD();
@@ -36,7 +36,7 @@
             }  
         }
 
-        private function InsertCours($nom,$classe,$date,$prof){
+        protected function InsertCours($nom,$classe,$date,$prof){
             $sql ="INSERT INTO Classe (idClasse)
             VALUES ('".$nom."'')";
             $Conn = $this->ConnectBDD();
@@ -47,7 +47,7 @@
             }  
         }
 
-        private function InsertStudentInClasse($student,$classe){
+        protected function InsertStudentInClasse($student,$classe){
             $sql ="UPDATE login
             SET idClasse = '".$classe."'
             WHERE identifiantLogin = ".$student."";
@@ -59,7 +59,7 @@
             }  
         }
 
-        private function classeExist($id)
+        protected function classeExist($id)
         {
             $bool = false;
             $Conn = $this->ConnectBDD();
@@ -77,7 +77,7 @@
             return $bool;
         }
 
-        private function coursExist($id)
+        protected function coursExist($id)
         {
             $bool = false;
             $Conn = $this->ConnectBDD();
@@ -95,7 +95,7 @@
             return $bool;
         }
 
-        private function userExist($id)
+        protected function userExist($id)
         {
             $bool = false;
             $Conn = $this->ConnectBDD();
@@ -114,7 +114,7 @@
             return $bool;
         }
 
-        private function userCheckPass($id,$pass)
+        protected function userCheckPass($id,$pass)
         {
             $bool = false;
             $Conn = $this->ConnectBDD();
@@ -134,7 +134,7 @@
             return $bool;
         }
 
-        private function userRole($id){
+        protected function userRole($id){
             $role = NULL;
             $Conn = $this->ConnectBDD();
             $texteRequete = "select identifiantLogin, role from Login";
