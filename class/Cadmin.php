@@ -91,4 +91,16 @@
                 throw new Exception('L\'étudiant n\est pas un étudiant');
             $this->InsertStudentInClasse($student,$classe);
         }
+
+        public function getUser(){
+            return $this->adminGetUser();
+        }
+
+        public function getClasse(){
+            return $this->adminGetClasse();
+        }
+
+        public function getCours(){
+            return $this->adminGetCours();
+        }
     }
