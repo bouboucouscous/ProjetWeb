@@ -12,10 +12,10 @@
 <body>
     <div class="barreHaut">
         <div class="noirCestNoir" onclick="openNav()" style="cursor:pointer">
-            <div><img src="CSS/image/profile.jpg" class="ppProfile"></div>
+            <div><img src="CSS/image/profile2.jpg" class="ppProfile"></div>
             <div class="user">
-                <div class="nom">LEBG</div>
-                <div class="prenom">Enzo &#9207;
+                <div class="nom">Dijoux</div>
+                <div class="prenom">Rémi &#9207;
                 </div>                
             </div>
         </div>
