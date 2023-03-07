@@ -150,4 +150,31 @@
             }
             return $role;
         }
+
+        protected function adminGetUser(){
+            $texteRequete = "select identifiantLogin, nom, prenom, role from Login";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            return $tabRes;
+        }
+
+        protected function adminGetCours(){
+            $texteRequete = "select idCours, idClasse, date, idProf from Cours";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            return $tabRes;
+        }
+         
+        protected function adminGetClasse(){
+            $texteRequete = "select idClasse from Classe";
+            $requete = $Conn->prepare($texteRequete);
+            $requete->execute();
+            // récupération du résultat dans un tableau associatif
+            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
+            return $tabRes;
+        }
     }
