@@ -1,2 +1,26 @@
-input[type=text], input[type=text]{
+input, select{    
+    border: 0;
+    width: 200px;
+    background-color: #e84d0d;
+    color:white;
+    display: block;
+    margin-left: 20px;
+    margin-top: 50px;
+}
+
+::placeholder{
+    color:white;
+}
+
+.box select{    
+  appearance: button;
+  outline: none;
+}
+
+option:focus {
+    color: rgb(30, 0, 255);
+}
+input[name="nom"]{
+    margin-top: 20px;
+    display: inline-block;
 }

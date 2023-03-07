@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="CSS/professeur.css">    
     <link rel="stylesheet" href="CSS/admin.css">
     <script src="JS/script.js"></script>
-    <script src="JS/admin.js"></script>
 </head>
 <body>
     <div class="barreHaut">
@@ -26,12 +25,11 @@
     </div>
     <div id="MENU" class="MENU">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#" onclick="createUser()">Créer utilisateur</a>
-        <a href="#" onclick="createCours()">Créer cours</a>
-        <a href="#" onclick="createTeam()">Créer groupe</a>
+        <a href="createUser.php">Créer utilisateur</a>
+        <a href="createCours.php">Créer cours</a>
+        <a href="createTeam.php">Créer groupe</a>
     </div>
     <div class="carreblanc">
-        <iframe id="accesPageByMenu" class="accesPageByMenu" src="createUser.php"></iframe>
     </div>
 </body>
 </html>
