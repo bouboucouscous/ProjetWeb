@@ -22,7 +22,7 @@
     </form>
 
     <?php
-      require_once('../CommBdd/admin.php');
+      require_once('../class/Cadmin.php');
 
       if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $nom = $_POST['nom'];
@@ -30,9 +30,14 @@
           $email = $_POST['email'];
           $role = $_POST['username'];
           $password = $_POST['password'];
-          $admin = new Admin();
-          $admin->creer_user($nom, $prenom, $email, $role, $password);
-
+          try{
+            $admin = new Admin("toto","123456");
+            $admin->creer_user($nom, $prenom, $email, $role, $password);
+          }catch(Exception $e)
+          {
+            echo "Erreur : ".$e->getMessage()."<br/>";
+            die();            
+          }      
           echo "<p>Utilisateur créé avec succès.</p>";
       }
     ?>

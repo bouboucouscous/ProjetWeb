@@ -5,14 +5,13 @@
         private $IdAdmin;
         private $passwordAdmin;
 
-        public function Admin($admin,$password){
-            $Bdd = new CommBdd();
-            if($Bdd->userExist($admin)==false)
-                throw new Exception("L'utilisateur n'existe pas");
-            if(strcmp($Bdd->userRole($admin),"Admin")!=0)
-                throw new Exception("L'utilisateur n'est pas un admin");
-            if($Bdd->user($admin)==false)
-                throw new Exception("Le mot de passe ne correspond pas");
+         public function __construct($admin,$password){
+            if($this->userExist($admin)==false)
+                throw new Exception("L'admin n'existe pas");
+            if(strcmp($this->userRole($admin),"Admin")!=0)
+                throw new Exception("L'Admin n'est pas un admin");
+            if($this->user($admin)==false)
+                throw new Exception("Le mot de passe de L'admin ne correspond pas");
             $this.$IdAdmin = $admin ;
             $this.$passwordAdmin = password_hash($password,PASSWORD_DEFAULT);
         }
@@ -34,27 +33,25 @@
             $id = $nom . $prenom[0];
             $idBase = $id;
             $indice = 0;
-            $Bdd = new CommBdd();
-            while($Bdd->userExist($id)== true){
+            while($this->userExist($id)== true){
                 $indice = $indice + 1;
                 $id = $idBase.$indice;
             }   
             $password = password_hash($password,PASSWORD_DEFAULT);
-            $Bdd->InsertUser($id,$nom,$prenom,$email,$role,$password);
+            $this->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
         public function creer_classe($nom)
         {
             if($nom == NULL)
                 throw new Exception('Le nom est Null');
-            $Bdd = new CommBdd();
             $nomBase = $nom;
             $indice = 0;
-            while($Bdd->classeExist($nom)==true){
+            while($this->classeExist($nom)==true){
                 $indice = $indice +1;
                 $nom = $nomBase.$indice;
             }
-            $Bdd->InsertClasse($nom);
+            $this->InsertClasse($nom);
         }
 
         public function creer_cours($nom,$classe,$date,$prof)
@@ -67,33 +64,31 @@
                 throw new Exception('La date est Null');
             if($prof == NULL)
                 throw new Exception('Le nom du professeur est Null');
-            $Bdd = new CommBdd();
             //check name
             $nomBase = $nom;
             $indice = 0;
-            while($Bdd->coursExist($nom)==true){
+            while($this->coursExist($nom)==true){
                 $indice = $indice +1;
                 $nom = $nomBase.$indice;
             }
-            if(!$Bdd->classeExist($classe)==true)
+            if(!$this->classeExist($classe)==true)
                 throw new Exception('La classe n\'éxiste pas');
-            if(!$Bdd->userExist($prof)==true)
+            if(!$this->userExist($prof)==true)
                 throw new Exception('Le professeur n\'éxiste pas');
-            if(!strcmp($Bdd->userRole($prof),"Professeur"))
+            if(!strcmp($this->userRole($prof),"Professeur"))
                 throw new Exception('Le professeur désigné n\'est pas professeur');
-            $Bdd->InsertCours($nom,$classe,$date,$prof);
+            $this->InsertCours($nom,$classe,$date,$prof);
         }
 
         public function insertStudentClasse($student,$classe){
             if($student == NULL)
                 throw new Exception('L\'édudiant est Null');
-            $Bdd = new CommBdd();
-            if($Bdd->userExist($student)==false)
+            if($this->userExist($student)==false)
                 throw new Exception('L\'étudiant n\'éxiste pas');
-            if($Bdd->classeExist($classe)==false)
+            if($this->classeExist($classe)==false)
                 throw new Exception('La classe n\'éxiste pas');
-            if(!strcmp($Bdd->userRole($student),'Eleve'))
+            if(!strcmp($this->userRole($student),'Eleve'))
                 throw new Exception('L\'étudiant n\est pas un étudiant');
-            $Bdd->InsertStudentInClasse($student,$classe);
+            $this->InsertStudentInClasse($student,$classe);
         }
     }
