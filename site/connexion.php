@@ -1,10 +1,16 @@
 <?php
-require_once('../class/Clogin.php');
+require_once "../class/Clogin.php";
 if(isset($_POST["username"]) && isset($_POST["password"])){
     $username = $_POST["username"];
     $password = $_POST["password"];
-    $login = new CLogin($username,$password);
-    $role = $login->LoginUserGetRole();
+    try {
+        $login = new Login($username,$password);
+        $role = $login->LoginUserGetRole();
+    } catch (Exception $e) {
+        $message = "Nom d'utilisateur ou mot de passe incorrect.";
+        header("Location: login.php?message=" . urlencode($message));
+        exit();
+    }
     switch ($role) {
         case 'Admin':
             header("Location: admin.php");
