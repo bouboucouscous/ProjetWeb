@@ -39,7 +39,7 @@
     </div>
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once('../class/Clogin.php');
+        //require_once('../class/Clogin.php');
         $login = new Login("DijouxR","123456");
         try{
             $role = $login->LoginUserGetRole("");
