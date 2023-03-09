@@ -1,49 +1,92 @@
 <?php
-    class CommBdd{
-        private function ConnectBDD(){
+    class Communication{
+        private static $Connexion = null;
+
+        function __construct(){
             try
             {
-                $Conn = new PDO("mysql:host=localhost;dbname=chabert0","chabert","h9IfJHFJ");
+                self::$Connexion = new PDO("mysql:host=localhost;dbname=chabert0","chabert","h9IfJHFJ");               
             }
             catch (PDOException $e)
             {
-                echo "Erreur PDO : ".$e->getMessage()."<br/>";
-                die();
-                
+                throw new Exception("Impossible de joindre la base de donnée");               
             }
-            return $Conn;
         }
 
+        private function requeteSelectSQL($select,$from,$where,$guess){
+            //$guess = self::$Connexion->quote($guess);
+            $sqlQuery =" Select ".$select;
+            $sqlQuery .=" From ".$from;
+            $sqlQuery .=" Where ".$where.' = :id';
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":id",$guess);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function userExist($id)
+        {
+            $bool = false;
+            $resultat = $this->requeteSelectSQL("identifiantLogin","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif       
+            if(count($resultat)==1 && strcmp($resultat[0]["identifiantLogin"],$id)==0){
+                $bool = true;
+            }
+            return $bool;
+        }
+
+        protected function userCheckPass($id,$password)
+        {
+            $bool = false;
+            $resultat = $this->requeteSelectSQL("password","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif   
+            //if(count($resultat)==1 && strcmp($resultat[0]["password"],password_hash($password,PASSWORD_DEFAULT))==0){
+            if(count($resultat)==1 && password_verify($password,$resultat[0]["password"])){
+                $bool = true;
+            }
+            return $bool;
+        }
+
+        protected function userRole($id){
+            $role = NULL;
+            $resultat = $this->requeteSelectSQL("role","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif
+            if(count($resultat)==1){
+                return $resultat[0]["role"];
+            }
+            else{
+                throw new Exception("La Bdd ne retourne aucunne donnée pour l'utilisateur demandé");
+            }
+        }
+
+        /*
         protected function InsertUser($id,$nom,$prenom,$email,$role,$password){
             $sql ="INSERT INTO Login (identifiantLogin, nom, prenom, email, role, password)
             VALUES ('".$id."', '".$nom."', '".$prenom."', '".$email."', '".$role."', '".$password."')";
-            $Conn = $this->ConnectBDD();
-            if ($Conn->query($sql) == TRUE) {
+            if ($Connexion->query($sql) == TRUE) {
                 echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $Conn->error;
+                echo "Error: " . $sql . "<br>" . $Connexion->error;
             }           
         }
 
         protected function InsertClasse($nom){
             $sql ="INSERT INTO Classe (idClasse)
             VALUES ('".$nom."'')";
-            $Conn = $this->ConnectBDD();
-            if ($Conn->query($sql) == TRUE) {
+            if ($Connexion->query($sql) == TRUE) {
                 echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $Conn->error;
+                echo "Error: " . $sql . "<br>" . $Connexion->error;
             }  
         }
 
         protected function InsertCours($nom,$classe,$date,$prof){
             $sql ="INSERT INTO Classe (idClasse)
             VALUES ('".$nom."'')";
-            $Conn = $this->ConnectBDD();
-            if ($Conn->query($sql) == TRUE) {
+            if ($Connexion->query($sql) == TRUE) {
                 echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $Conn->error;
+                echo "Error: " . $sql . "<br>" . $Connexion->error;
             }  
         }
 
@@ -51,20 +94,18 @@
             $sql ="UPDATE login
             SET idClasse = '".$classe."'
             WHERE identifiantLogin = ".$student."";
-            $Conn = $this->ConnectBDD();
-            if ($Conn->query($sql) == TRUE) {
+            if ($Connexion->query($sql) == TRUE) {
                 echo "New record created successfully";
             } else {
-                echo "Error: " . $sql . "<br>" . $Conn->error;
+                echo "Error: " . $sql . "<br>" . $Connexion->error;
             }  
         }
 
         protected function classeExist($id)
         {
             $bool = false;
-            $Conn = $this->ConnectBDD();
             $texteRequete = "select idClasse from Classe";
-            $requete = $Conn->prepare($texteRequete);
+            $requete = $Connexion->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -80,9 +121,8 @@
         protected function coursExist($id)
         {
             $bool = false;
-            $Conn = $this->ConnectBDD();
             $texteRequete = "select idCours from Cours";
-            $requete = $Conn->prepare($texteRequete);
+            $requete = $Connexion->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -93,67 +133,11 @@
                 }
             }
             return $bool;
-        }
-
-        protected function userExist($id)
-        {
-            $bool = false;
-            $Conn = $this->ConnectBDD();
-            $texteRequete = "select identifiantLogin from Login";
-            $requete = $Conn->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            foreach($tabRes as $uneLigne)
-            {
-                if(strcmp($uneLigne['identifiantLogin'],$id)==0){
-                    echo "Error: " . $id . "<br>";
-                    $bool = true;
-                }
-            }
-            return $bool;
-        }
-
-        protected function userCheckPass($id,$pass)
-        {
-            $bool = false;
-            $Conn = $this->ConnectBDD();
-            $texteRequete = "select identifiantLogin, password from Login";
-            $requete = $Conn->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            foreach($tabRes as $uneLigne)
-            {
-                if(strcmp($uneLigne['identifiantLogin'],$id)==0){
-                    if(strcmp($uneLigne['password'],$pass)==0){
-                        $bool = true;
-                    }
-                }
-            }
-            return $bool;
-        }
-
-        protected function userRole($id){
-            $role = NULL;
-            $Conn = $this->ConnectBDD();
-            $texteRequete = "select identifiantLogin, role from Login";
-            $requete = $Conn->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            foreach($tabRes as $uneLigne)
-            {
-                if(strcmp($uneLigne['identifiantLogin'],$id)){
-                    $role = $uneLigne['role'];
-                }
-            }
-            return $role;
-        }
+        }       
 
         protected function adminGetUser(){
             $texteRequete = "select identifiantLogin, nom, prenom, role from Login";
-            $requete = $Conn->prepare($texteRequete);
+            $requete = $Connexion->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -162,7 +146,7 @@
 
         protected function adminGetCours(){
             $texteRequete = "select idCours, idClasse, date, idProf from Cours";
-            $requete = $Conn->prepare($texteRequete);
+            $requete = $Connexion->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
@@ -171,10 +155,11 @@
          
         protected function adminGetClasse(){
             $texteRequete = "select idClasse from Classe";
-            $requete = $Conn->prepare($texteRequete);
+            $requete = $Connexion->prepare($texteRequete);
             $requete->execute();
             // récupération du résultat dans un tableau associatif
             $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
             return $tabRes;
         }
+        */
     }

@@ -1,17 +1,23 @@
 <?php
     include_once('CCommunication.php');
-    class Eleve extends CommBdd{
-        private $IDEleve;
-        private $passwordEleve;
+    class Eleve extends Communication{
+    
+        private static $id;
+        private static $password;
 
-         public function __construct($eleve,$password){
-            if($this->userExist($eleve)==false)
+        function __construct($id,$password){
+            parent::__construct();
+            if($this->userExist($id)==false)
                 throw new Exception("L'élève n'existe pas");
-            if(strcmp($this->userRole($eleve),"Admin")!=0)
-                throw new Exception("L'élève n'est pas un élève");
-            if($this->user($eleve)==false)
+            if($this->userCheckPass($id,$password)==false)
                 throw new Exception("Le mot de passe de L'élève ne correspond pas");
-            $this.$IDEleve = $eleve ;
-            $this.$passwordEleve = password_hash($password,PASSWORD_DEFAULT);
+            if(strcmp($this->userRole($id),"Eleve")!=0)
+                throw new Exception("L'élève n'est pas un élève");           
+            self::$id = $id;
+            self::$password = $password;
+        }
+
+        public function getFicheAppel(){
+            
         }
     }

@@ -57,7 +57,7 @@
           $role = $_POST['username'];
           $password = $_POST['password'];
           try{
-            $admin = new Admin("toto","123456");
+            $admin = new Admin("DijouxR","123456");
             $admin->creer_user($nom, $prenom, $email, $role, $password);
           }catch(Exception $e)
           {

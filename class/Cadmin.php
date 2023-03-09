@@ -1,22 +1,24 @@
 <?php
     include_once('CCommunication.php');
-    class Admin extends CommBdd{
+    class Admin extends Communication{
 
-        private $IdAdmin;
-        private $passwordAdmin;
+        private static $id;
+        private static $password;
 
-         public function __construct($admin,$password){
-            if($this->userExist($admin)==false)
+        function __construct($id,$password){
+            parent::__construct();
+            if($this->userExist($id)==false)
                 throw new Exception("L'admin n'existe pas");
-            if(strcmp($this->userRole($admin),"Admin")!=0)
-                throw new Exception("L'Admin n'est pas un admin");
-            if($this->user($admin)==false)
+            if($this->userCheckPass($id,$password)==false)
                 throw new Exception("Le mot de passe de L'admin ne correspond pas");
-            $this.$IdAdmin = $admin ;
-            $this.$passwordAdmin = password_hash($password,PASSWORD_DEFAULT);
+            if(strcmp($this->userRole($id),"Admin")!=0)
+                throw new Exception("L'Admin n'est pas un admin");
+            self::$id = $id ;
+            self::$password = $password ;
         }
 
-        public function creer_user($nom,$prenom,$email,$role,$password)
+        /*
+        public function createUser($nom,$prenom,$email,$role,$password)
         {
             if($nom == NULL)
                 throw new Exception('Le nom est Null');
@@ -91,16 +93,5 @@
                 throw new Exception('L\'étudiant n\est pas un étudiant');
             $this->InsertStudentInClasse($student,$classe);
         }
-
-        public function getUser(){
-            return $this->adminGetUser();
-        }
-
-        public function getClasse(){
-            return $this->adminGetClasse();
-        }
-
-        public function getCours(){
-            return $this->adminGetCours();
-        }
+        */
     }
