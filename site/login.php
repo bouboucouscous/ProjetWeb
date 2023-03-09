@@ -20,7 +20,7 @@
 </head>
 <body>
   <div class="carrecolorer">
-    <form action=".php" method="POST">
+    <form action="connexion.php" method="POST">
       <img src="CSS/image/3il_Logo.png" class="logo">
       <br><br>
       <div id="errorMessage"><?php echo $message;?></div>
