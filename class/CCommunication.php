@@ -47,6 +47,17 @@
             return $bool;
         }
 
+        protected function userCheckEmail($id,$email){
+            $bool = false;
+            $resultat = $this->requeteSelectSQL("email","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif   
+            //if(count($resultat)==1 && strcmp($resultat[0]["password"],password_hash($password,PASSWORD_DEFAULT))==0){
+            if(count($resultat)==1 && strcmp($resultat[0]["email"],$email)==0){
+                $bool = true;
+            }
+            return $bool;
+        }
+
         protected function userRole($id){
             $role = NULL;
             $resultat = $this->requeteSelectSQL("role","Login","identifiantLogin",$id);
