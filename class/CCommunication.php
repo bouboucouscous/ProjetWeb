@@ -75,7 +75,7 @@
         }
 
         protected function getListCoursById($id){
-            $resultat = $this->requeteSelectSQL("idCours, date",
+            $resultat = $this->requeteSelectSQL("idCours, NomCours, date",
                                                 "Cours",
                                                 "idProf",
                                                 $id);
