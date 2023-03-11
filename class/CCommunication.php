@@ -34,6 +34,54 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function setElevePresentByIds($cours,$eleve){
+            try {
+                $sqlQuery =" Update Appel";
+                $sqlQuery .=" Set presence = 1";
+                $sqlQuery .=" Where idCours = :cours";
+                $sqlQuery .=" And identifiantLogin = :eleve";
+                $statement = self::$Connexion->prepare($sqlQuery);          
+                $statement->bindParam(":cours",$cours);
+                $statement->bindParam(":eleve",$eleve);
+                $statement->execute();
+            } catch (PDOException $e) {
+                return false;
+            }
+            return true;
+        }
+
+        protected function setEleveNonPresentByIds($cours,$eleve){
+            try {
+                $sqlQuery =" Update Appel";
+                $sqlQuery .=" Set presence = 0";
+                $sqlQuery .=" Where idCours = :cours";
+                $sqlQuery .=" And identifiantLogin = :eleve";
+                $statement = self::$Connexion->prepare($sqlQuery);          
+                $statement->bindParam(":cours",$cours);
+                $statement->bindParam(":eleve",$eleve);
+                $statement->execute();
+            } catch (PDOException $e) {
+                return false;
+            }
+            return true;
+        }
+
+        protected function getListAppelByCours($cours){
+            $resultat = $this->requeteSelectSQL("presence, identifiantLogin",
+                                                "Appel",
+                                                "idCours",
+                                                $cours);
+            return $resultat;
+        }
+
+        protected function getListCoursById($id){
+            $resultat = $this->requeteSelectSQL("idCours, date",
+                                                "Cours",
+                                                "idProf",
+                                                $id);
+            return $resultat;
+        }
+
         protected function getFicheAppelById($id){
             $resultat = $this->requeteSelectInnerJoinSQL("a.presence ,a.idCours ,c.date",
                                                 "Appel a",
@@ -46,7 +94,10 @@
         protected function userExist($id)
         {
             $bool = false;
-            $resultat = $this->requeteSelectSQL("identifiantLogin","Login","identifiantLogin",$id);
+            $resultat = $this->requeteSelectSQL("identifiantLogin",
+                                                "Login",
+                                                "identifiantLogin",
+                                                $id);
             // récupération du résultat dans un tableau associatif       
             if(count($resultat)==1 && strcmp($resultat[0]["identifiantLogin"],$id)==0){
                 $bool = true;
@@ -78,107 +129,17 @@
             }
         }
 
-        /*
-        protected function InsertUser($id,$nom,$prenom,$email,$role,$password){
-            $sql ="INSERT INTO Login (identifiantLogin, nom, prenom, email, role, password)
-            VALUES ('".$id."', '".$nom."', '".$prenom."', '".$email."', '".$role."', '".$password."')";
-            if ($Connexion->query($sql) == TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $Connexion->error;
-            }           
-        }
-
-        protected function InsertClasse($nom){
-            $sql ="INSERT INTO Classe (idClasse)
-            VALUES ('".$nom."'')";
-            if ($Connexion->query($sql) == TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $Connexion->error;
-            }  
-        }
-
-        protected function InsertCours($nom,$classe,$date,$prof){
-            $sql ="INSERT INTO Classe (idClasse)
-            VALUES ('".$nom."'')";
-            if ($Connexion->query($sql) == TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $Connexion->error;
-            }  
-        }
-
-        protected function InsertStudentInClasse($student,$classe){
-            $sql ="UPDATE login
-            SET idClasse = '".$classe."'
-            WHERE identifiantLogin = ".$student."";
-            if ($Connexion->query($sql) == TRUE) {
-                echo "New record created successfully";
-            } else {
-                echo "Error: " . $sql . "<br>" . $Connexion->error;
-            }  
-        }
-
-        protected function classeExist($id)
+        protected function checkCoursExistAndProf($cours,$idProf)
         {
             $bool = false;
-            $texteRequete = "select idClasse from Classe";
-            $requete = $Connexion->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            foreach($tabRes as $uneLigne)
-            {
-                if(strcmp($uneLigne['idClasse'],$id)==0){
-                    $bool = true;
-                }
+            $resultat = $this->requeteSelectSQL("idProf",
+                                                "Cours",
+                                                "idCours",
+                                                $cours);                                               
+            // récupération du résultat dans un tableau associatif       
+            if(count($resultat)==1 && strcmp($resultat[0]["idProf"],$idProf)==0){
+                $bool = true;
             }
             return $bool;
         }
-
-        protected function coursExist($id)
-        {
-            $bool = false;
-            $texteRequete = "select idCours from Cours";
-            $requete = $Connexion->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            foreach($tabRes as $uneLigne)
-            {
-                if(strcmp($uneLigne['idCours'],$id)==0){
-                    $bool = true;
-                }
-            }
-            return $bool;
-        }       
-
-        protected function adminGetUser(){
-            $texteRequete = "select identifiantLogin, nom, prenom, role from Login";
-            $requete = $Connexion->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            return $tabRes;
-        }
-
-        protected function adminGetCours(){
-            $texteRequete = "select idCours, idClasse, date, idProf from Cours";
-            $requete = $Connexion->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            return $tabRes;
-        }
-         
-        protected function adminGetClasse(){
-            $texteRequete = "select idClasse from Classe";
-            $requete = $Connexion->prepare($texteRequete);
-            $requete->execute();
-            // récupération du résultat dans un tableau associatif
-            $tabRes = $requete->fetchAll(PDO::FETCH_ASSOC);
-            return $tabRes;
-        }
-        */
     }
