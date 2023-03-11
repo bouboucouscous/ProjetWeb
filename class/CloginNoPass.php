@@ -2,7 +2,7 @@
     include_once('CCommunication.php');
     class LoginNoPass extends Communication{
         
-        protected static $id;
+        private static $id;
 
         function __construct($id){
             parent::__construct();

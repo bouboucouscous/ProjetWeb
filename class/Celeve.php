@@ -18,6 +18,6 @@
         }
 
         public function getFicheAppel(){
-            
+            return $this->getFicheAppelById(self::$id);
         }
     }

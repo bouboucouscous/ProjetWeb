@@ -13,15 +13,34 @@
             }
         }
 
-        private function requeteSelectSQL($select,$from,$where,$guess){
-            //$guess = self::$Connexion->quote($guess);
+        private function requeteSelectSQL($select,$from,$where,$id){
             $sqlQuery =" Select ".$select;
             $sqlQuery .=" From ".$from;
             $sqlQuery .=" Where ".$where.' = :id';
             $statement = self::$Connexion->prepare($sqlQuery);          
-            $statement->bindParam(":id",$guess);
+            $statement->bindParam(":id",$id);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        private function requeteSelectInnerJoinSQL($select,$from,$inner,$where,$id){
+            $sqlQuery =" Select ".$select;
+            $sqlQuery .=" From ".$from;
+            $sqlQuery .=" Inner Join ".$inner;
+            $sqlQuery .=" Where ".$where.' = :id';
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":id",$id);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function getFicheAppelById($id){
+            $resultat = $this->requeteSelectInnerJoinSQL("a.presence ,a.idCours ,c.date",
+                                                "Appel a",
+                                                "Cours c",
+                                                "a.idCours = c.idCours AND a.identifiantLogin",
+                                                $id);
+            return $resultat;
         }
 
         protected function userExist($id)
@@ -42,17 +61,6 @@
             // récupération du résultat dans un tableau associatif   
             //if(count($resultat)==1 && strcmp($resultat[0]["password"],password_hash($password,PASSWORD_DEFAULT))==0){
             if(count($resultat)==1 && password_verify($password,$resultat[0]["password"])){
-                $bool = true;
-            }
-            return $bool;
-        }
-
-        protected function userCheckEmail($id,$email){
-            $bool = false;
-            $resultat = $this->requeteSelectSQL("email","Login","identifiantLogin",$id);
-            // récupération du résultat dans un tableau associatif   
-            //if(count($resultat)==1 && strcmp($resultat[0]["password"],password_hash($password,PASSWORD_DEFAULT))==0){
-            if(count($resultat)==1 && strcmp($resultat[0]["email"],$email)==0){
                 $bool = true;
             }
             return $bool;
