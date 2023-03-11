@@ -39,15 +39,18 @@
     </div>
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        //require_once('../class/Clogin.php');
-        $login = new Login("DijouxR","123456");
+        require_once('../class/Celeve.php');
         try{
-            $role = $login->LoginUserGetRole("");
-            echo "<p>$role</p>";
+            $eleve = new Eleve("CoussyR","123456");
+            $appel = $eleve->getFicheAppel();
+            foreach ($appel as $col) {
+                foreach ($col as $lin) {
+                    echo "<p>$lin</p>";
+                }              
+            }    
         }catch(Exception $e){
             echo "<p>$e</p>";
         }
-        
     }
 ?>
 </body>

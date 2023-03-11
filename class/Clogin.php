@@ -1,5 +1,5 @@
 <?php
-    include_once('CCommunication.php');
+    include_once('CloginNoPass.php');
     class Login extends Communication{
         
         private static $id;
