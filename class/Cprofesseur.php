@@ -43,4 +43,8 @@
                 throw new Exception("L'eleve n'existe pas");
             return $this->setEleveNonPresentByIds($cours,$eleve);
         }
+
+        public function GetNomPrenom(){
+            return GetNames(self::$id);
+        }
     }

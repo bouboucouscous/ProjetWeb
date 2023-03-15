@@ -20,4 +20,8 @@
         public function getFicheAppel(){
             return $this->getFicheAppelById(self::$id);
         }
+
+        public function GetNomPrenom(){
+            return GetNames(self::$id);
+        }
     }
