@@ -34,6 +34,28 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function getAdminListUsers(){
+            $sqlQuery =" Select identifiantLogin, nom, prenom, email, role";
+            $sqlQuery .=" From Login";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function InsertUser($id,$nom,$prenom,$email,$role,$password){
+            $sqlQuery =" Insert into Login (identifiantLogin, nom, prenom, email, role, password)"
+            $sqlQuery .=" Values ( :id , :nom , :prenom , :email , :role , :pass )";
+            $statement = self::$Connexion->prepare($sqlQuery); 
+            $statement->bindParam(":id",$id);
+            $statement->bindParam(":nom",$nom);
+            $statement->bindParam(":prenom",$prenom);
+            $statement->bindParam(":email",$email);
+            $statement->bindParam(":role",$role);
+            $statement->bindParam(":pass",$password);
+            $statement->execute();
+            return $this->userExist($id);
+        }
+
         protected function setElevePresentByIds($cours,$eleve){
             try {
                 $sqlQuery =" Update Appel";
