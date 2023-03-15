@@ -23,8 +23,7 @@ form {
 .inputModerne{
     background: transparent;
     border: 0;
-    border-bottom: 3px solid #e84d0d;
-    
+    border-bottom: 3px solid #e84d0d;    
     display: block;
     margin: auto;
 }
@@ -42,7 +41,7 @@ input[type=password] {
 .buttonCo{
     background-color: #e84d0d;
     display: block;
-    margin: auto;    
+    margin: auto;
     border: 5px solid #e84d0d;
     border-radius: 10px;
 }
@@ -74,6 +73,4 @@ input[value]{
 
 #errorMessage{
     color: red;
-    font-size: 20px;
-    font-weight: bold;
 }

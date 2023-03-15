@@ -4,7 +4,7 @@
     height: 60px;
     margin:0;
     padding:0;
-    background: rgba(23, 65, 148,0.8);
+    background: rgba(23, 65, 148,0.6);
 }
 
 .logo{
@@ -33,8 +33,12 @@
     color:white;
     font-weight: bold;
     position: absolute;
-    top: 5px;
-    margin-left: 65px;
+    top: 5px;  
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    text-align: center;
 }
 
 .titre{
@@ -52,4 +56,6 @@
     margin: 150px;
     margin-top: 50px;
     position: relative;
+    column-count: 2;
+    column-rule: solid rgb(23, 65, 148);
 }

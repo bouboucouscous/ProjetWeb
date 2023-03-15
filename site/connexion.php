@@ -11,9 +11,12 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
         header("Location: login.php?message=" . urlencode($message));
         exit();
     }
+    session_start();
+    $_SESSION["username"] = $username;
+    $_SESSION["password"] = $password;
     switch ($role) {
         case 'Admin':
-            header("Location: admin.php");
+            header("Location: createUser.php");
             exit();
         case 'Professeur':
             //Il faut crée la page user
