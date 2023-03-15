@@ -35,12 +35,12 @@
         }
 
         protected function getAdminUsersById($id){
-            $sqlQuery =" Select identifiantLogin, nom, prenom, email, role";
+            $sqlQuery =" Select nom, prenom, email, role";
             $sqlQuery .=" From Login";
             $sqlQuery .=" Where identifiantLogin= :id";
-            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":id",$id);      
             $statement->execute();
-            $statement->bindParam(":id",$id);
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 

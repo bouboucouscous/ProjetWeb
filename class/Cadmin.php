@@ -43,7 +43,7 @@
         }
 
         public function GetNomPrenom(){
-            return GetNames(self::$id);
+            return $this->GetNames(self::$id);
         }
 
         public function GetUserById($id){

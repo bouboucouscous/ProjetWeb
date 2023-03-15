@@ -45,6 +45,6 @@
         }
 
         public function GetNomPrenom(){
-            return GetNames(self::$id);
+            return $this->GetNames(self::$id);
         }
     }
