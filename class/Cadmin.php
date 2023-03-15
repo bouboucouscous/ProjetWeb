@@ -42,4 +42,7 @@
             return $this->getAdminListUsers();
         }
 
+        public function GetNomPrenom(){
+            return GetNames(self::$id);
+        }
     }

@@ -34,6 +34,14 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function GetNames($id){
+            $resultat = $this->requeteSelectSQL("nom, prenom",
+                                                "Login",
+                                                "identifiantLogin",
+                                                $id);
+            return $resultat; 
+        }
+
         protected function getAdminListUsers(){
             $sqlQuery =" Select identifiantLogin, nom, prenom, email, role";
             $sqlQuery .=" From Login";
@@ -43,7 +51,7 @@
         }
 
         protected function InsertUser($id,$nom,$prenom,$email,$role,$password){
-            $sqlQuery =" Insert into Login (identifiantLogin, nom, prenom, email, role, password)"
+            $sqlQuery =" Insert into Login (identifiantLogin, nom, prenom, email, role, password)";
             $sqlQuery .=" Values ( :id , :nom , :prenom , :email , :role , :pass )";
             $statement = self::$Connexion->prepare($sqlQuery); 
             $statement->bindParam(":id",$id);
