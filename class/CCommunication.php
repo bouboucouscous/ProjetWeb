@@ -34,6 +34,46 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function updateUserWithoutPass($id,$nom,$prenom,$email,$role){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" SET nom = :nom , prenom= :prenom , email= :email ,role = :role";
+            $sqlQuery .=" WHERE identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":nom",$nom);
+            $statement->bindParam(":prenom",$nom);
+            $statement->bindParam(":email",$nom);
+            $statement->bindParam(":role",$nom);
+            $statement->bindParam(":id",$nom);
+            $statement->execute();
+        }
+
+        protected function updateUserWithPass($id,$nom,$prenom,$email,$role,$password){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" SET nom = :nom , prenom= :prenom , email= :email ,role = :role , password = :pass";
+            $sqlQuery .=" WHERE identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":nom",$nom);
+            $statement->bindParam(":prenom",$nom);
+            $statement->bindParam(":email",$nom);
+            $statement->bindParam(":role",$nom);
+            $statement->bindParam(":pass",$password);
+            $statement->bindParam(":id",$nom);
+            $statement->execute();
+        }
+
+        protected function deleteUserByIdAdmin($id){
+            $sqlQuery =" Delete From Login";
+            $sqlQuery .=" Where identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);  
+            $statement->bindParam(":id",$id);        
+            $statement->execute();
+            if($this->userExist($id)){
+                return false;
+            }else{
+                return true;
+            } 
+        }
+
         protected function getAdminUsersById($id){
             $sqlQuery =" Select nom, prenom, email, role";
             $sqlQuery .=" From Login";

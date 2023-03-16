@@ -42,11 +42,46 @@
             return $this->getAdminListUsers();
         }
 
-        public function GetNomPrenom(){
+        public function getNomPrenom(){
             return $this->GetNames(self::$id);
         }
 
-        public function GetUserById($id){
+        public function getUserById($id){
             return $this->getAdminUsersById($id);
+        }
+
+        public function deleteUserById($id){
+            return $this->deleteUserByIdAdmin($id);
+        }
+
+        public function updateUserWithPass($id,$nom,$prenom,$email,$role){
+            if($nom == NULL)
+                throw new Exception('Le nom est Null');
+            if($prenom == NULL)
+                throw new Exception('Le prenom est Null');
+            if($email == NULL)
+                throw new Exception('L\'email est Null');
+            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
+            else{
+                throw new Exception('Le role n\'est pas dans la liste accepté');
+            }
+            $this->updateUserWithPassAdmin($id,$nom,$prenom,$email,$role);
+        }
+
+        public function updateUserWithoutPass($id,$nom,$prenom,$email,$role,$password){
+            if($nom == NULL)
+                throw new Exception('Le nom est Null');
+            if($prenom == NULL)
+                throw new Exception('Le prenom est Null');
+            if($email == NULL)
+                throw new Exception('L\'email est Null');
+            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
+            else{
+                throw new Exception('Le role n\'est pas dans la liste accepté');
+            }
+            if($password == NULL)
+                throw new Exception('Le mot de passe est Null');
+            $password = password_hash($password,PASSWORD_DEFAULT);
+            $this->updateUserWithoutPassAdmin($id,$nom,$prenom,$email,$role,$password);
         }
     }
