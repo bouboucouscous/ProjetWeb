@@ -6,7 +6,7 @@ function UpdateUser(e, id) {
     document.forms[0].elements[1].value = "";
     document.forms[0].elements[2].value = "";
     document.forms[0].elements[4].required = true;
-    document.forms[0].elements[5].value = "Créer";
+    document.forms[0].elements[6].value = "Créer";
     document.forms[0].action = "creerOuUpdate.php?cree=1";
     document.forms[1].elements[1].disabled = true;
     lastRow.style.background = "rgb(255, 255, 255)"

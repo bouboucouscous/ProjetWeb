@@ -40,10 +40,10 @@
             $sqlQuery .=" WHERE identifiantLogin = :id";
             $statement = self::$Connexion->prepare($sqlQuery);          
             $statement->bindParam(":nom",$nom);
-            $statement->bindParam(":prenom",$nom);
-            $statement->bindParam(":email",$nom);
-            $statement->bindParam(":role",$nom);
-            $statement->bindParam(":id",$nom);
+            $statement->bindParam(":prenom",$prenom);
+            $statement->bindParam(":email",$email);
+            $statement->bindParam(":role",$role);
+            $statement->bindParam(":id",$id);
             $statement->execute();
         }
 
@@ -53,11 +53,11 @@
             $sqlQuery .=" WHERE identifiantLogin = :id";
             $statement = self::$Connexion->prepare($sqlQuery);          
             $statement->bindParam(":nom",$nom);
-            $statement->bindParam(":prenom",$nom);
-            $statement->bindParam(":email",$nom);
-            $statement->bindParam(":role",$nom);
+            $statement->bindParam(":prenom",$prenom);
+            $statement->bindParam(":email",$email);
+            $statement->bindParam(":role",$role);
             $statement->bindParam(":pass",$password);
-            $statement->bindParam(":id",$nom);
+            $statement->bindParam(":id",$id);
             $statement->execute();
         }
 
