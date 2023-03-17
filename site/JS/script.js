@@ -7,14 +7,14 @@ function UpdateUser(e, id) {
     document.forms[0].elements[2].value = "";
     document.forms[0].elements[4].required = true;
     document.forms[0].elements[5].value = "Créer";
-    document.forms[0].action = "creerouupdate.php?cree=true";
-    document.forms[1].elements[0].disabled = true;
+    document.forms[0].action = "creerOuUpdate.php?cree=1";
+    document.forms[1].elements[1].disabled = true;
     lastRow.style.background = "rgb(255, 255, 255)"
     lastRow = null;
   }
   else {
-    console.log()
-    document.forms[1].action = document.forms[1].action+id;
+    document.forms[1].elements[0].value = id;
+    document.forms[0].elements[5].value = id;
     $.get("getUser.php?id="+id,traiterReponseDemande);
   }
   if (lastRow != null) {
@@ -32,9 +32,9 @@ function traiterReponseDemande(donnees) {
     document.forms[0].elements[2].value = element.email;
     document.forms[0].elements[3].value = element.role;
   });
-  
   document.forms[0].elements[4].required = false;
-  document.forms[0].elements[5].value = "Mettre à jour";
-  document.forms[0].action = "creerouupdate.php?cree=false";
-  document.forms[1].elements[0].disabled = false;
+  document.forms[0].elements[6].value = "Mettre à jour";
+  document.forms[0].action = "creerOuUpdate.php?cree=0";
+  document.forms[1].elements[1].disabled = false;
+
 }

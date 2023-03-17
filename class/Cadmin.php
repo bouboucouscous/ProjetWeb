@@ -17,7 +17,6 @@
             self::$password = $password ;
         }
 
-        
         public function createUser($nom,$prenom,$email,$role,$password)
         {
             if($nom == NULL)
@@ -26,8 +25,8 @@
                 throw new Exception('Le prenom est Null');
             if($email == NULL)
                 throw new Exception('L\'email est Null');
-            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
-            else{
+            if((strcmp($role,"Eleve")!=0) && (strcmp($role,"Admin")!=0) && (strcmp($role,"Professeur")!=0))
+            { 
                 throw new Exception('Le role n\'est pas dans la liste accepté');
             }
             if($password == NULL)
@@ -54,34 +53,24 @@
             return $this->deleteUserByIdAdmin($id);
         }
 
-        public function updateUserWithPass($id,$nom,$prenom,$email,$role){
+        public function updateUserAdmin($id,$nom,$prenom,$email,$role,$password){
             if($nom == NULL)
                 throw new Exception('Le nom est Null');
             if($prenom == NULL)
                 throw new Exception('Le prenom est Null');
             if($email == NULL)
                 throw new Exception('L\'email est Null');
-            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
-            else{
-                throw new Exception('Le role n\'est pas dans la liste accepté');
-            }
-            $this->updateUserWithPassAdmin($id,$nom,$prenom,$email,$role);
-        }
-
-        public function updateUserWithoutPass($id,$nom,$prenom,$email,$role,$password){
-            if($nom == NULL)
-                throw new Exception('Le nom est Null');
-            if($prenom == NULL)
-                throw new Exception('Le prenom est Null');
-            if($email == NULL)
-                throw new Exception('L\'email est Null');
-            if((strcmp($role,"Eleve")==0) || (strcmp($role,"Admin")==0) || (strcmp($role,"Professeur")==0)){}
-            else{
+            if((strcmp($role,"Eleve")!=0) && (strcmp($role,"Admin")!=0) && (strcmp($role,"Professeur")!=0)){
                 throw new Exception('Le role n\'est pas dans la liste accepté');
             }
             if($password == NULL)
-                throw new Exception('Le mot de passe est Null');
-            $password = password_hash($password,PASSWORD_DEFAULT);
-            $this->updateUserWithoutPassAdmin($id,$nom,$prenom,$email,$role,$password);
+            {
+                $this->updateUserWithoutPass($id,$nom,$prenom,$email,$role);
+            }
+            else
+            {
+                $password = password_hash($password,PASSWORD_DEFAULT);
+                $this->updateUserWithPass($id,$nom,$prenom,$email,$role,$password);
+            }
         }
     }

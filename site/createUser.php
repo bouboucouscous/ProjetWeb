@@ -48,7 +48,7 @@
         <a href="createTeam.php">Classe</a>
     </div>
     <div class="carreblanc">
-      <form action="creerOuUpdate.php?cree=true" method="POST">
+      <form action="creerOuUpdate.php?cree=1" method="POST">
           <input type="text" placeholder="Nom" name="nom" required value="">
           <input type="text" placeholder="Prenom" name="prenom" required value="">          
           <input type="email" placeholder="email" name="email" required value="">          
@@ -59,7 +59,8 @@
               <option value="Admin">Admin</option>
             </select>
           </div>          
-          <input type="password" placeholder="Mot de passe" name="password" required>      
+          <input type="password" placeholder="Mot de passe" name="password" required>
+          <input hidden name="id" value="">     
           <input type="submit" id='submit' value='Créer'>
       </form>
       <table class="tableauEleve">
@@ -91,6 +92,7 @@
       <br><br><br>
       <div id="Message"></div>
       <form class="delete" action="deleteUser.php?id=" method="GET" >
+        <input hidden name="id" value="">
         <input disabled type="submit" id='submit' value='Supprimer utilisateur'>
       </form>
       <?php      

@@ -16,7 +16,7 @@ catch (Exception $e)
 
 if(isset($_GET["cree"],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['role']))
 {
-    if($_GET["cree"])
+    if($_GET["cree"] == 1)
     {
         if (!isset($_POST["password"])) 
         {
@@ -48,22 +48,24 @@ if(isset($_GET["cree"],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['ro
     }
     else
     {
+        $id = $_POST['id'];
         $nom = $_POST['nom'];
         $prenom = $_POST['prenom'];
         $email = $_POST['email'];
         $role = $_POST['role'];
-        $passwordUser=null;
+        $passwordUser=NULL;
         if (isset($_POST["password"])) 
         {            
             $passwordUser = $_POST['password'];
         }
         try
         {
-            $Admin->modifyUser($nom, $prenom, $email, $role, $passwordUser);
+            $Admin->updateUserAdmin($id, $nom, $prenom, $email, $role, $passwordUser);
         }
         catch(Exception $e)
         {
             $message="Erreur : ".$e->getMessage();
+            echo $message;
             header("Location: createUser.php?message=" . urlencode($message));
             exit();          
         }
