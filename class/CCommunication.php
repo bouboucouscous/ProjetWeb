@@ -34,6 +34,36 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function getAdminListClasses(){
+            $sqlQuery =" Select idCLasse";
+            $sqlQuery .=" From Classe";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function classExist($id){
+            $bool = false;
+            $resultat = $this->requeteSelectSQL("idClasse",
+                                                "Login",
+                                                "idClasse",
+                                                $id);
+            // récupération du résultat dans un tableau associatif       
+            if(count($resultat)==1 && strcmp($resultat[0]["idClasse"],$id)==0){
+                $bool = true;
+            }
+            return $bool;
+        }
+
+        protected function InsertClass($nom){
+            $sqlQuery =" Insert into Classe (idClasse)";
+            $sqlQuery .=" Values ( :id )";
+            $statement = self::$Connexion->prepare($sqlQuery); 
+            $statement->bindParam(":id",$nom);
+            $statement->execute();
+            return $this->classExit($id);
+        }
+
         protected function updateUserWithoutPass($id,$nom,$prenom,$email,$role){
             $sqlQuery =" Update Login";
             $sqlQuery .=" SET nom = :nom , prenom= :prenom , email= :email ,role = :role";

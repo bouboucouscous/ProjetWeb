@@ -17,6 +17,22 @@
             self::$password = $password ;
         }
 
+        public function createClasse($nom){
+            if($nom == NULL)
+                throw new Exception('Le nom est Null');
+            $nomBase = $nom;
+            $i = 1;
+            while($this->classExist($nom)){
+                $nom = $nomBase.$i;
+                $i++;
+            }
+            return $this->InsertClass($nom);
+        }
+
+        public function getListClasse(){
+            return $this->getAdminListClasses();
+        }
+        
         public function createUser($nom,$prenom,$email,$role,$password)
         {
             if($nom == NULL)
@@ -31,9 +47,14 @@
             }
             if($password == NULL)
                 throw new Exception('Le mot de passe est Null');
-            $id = $nom . $prenom[0];  
+            $idBase = $id = $nom . $prenom[0];
+            $i = 1;
+            while($this->userExist($id)){
+                $id = $idBase.$i;
+                $i++;
+            }
             $password = password_hash($password,PASSWORD_DEFAULT);
-            $this->InsertUser($id,$nom,$prenom,$email,$role,$password);
+            return $this->InsertUser($id,$nom,$prenom,$email,$role,$password);
         }
 
         public function getListUser(){
