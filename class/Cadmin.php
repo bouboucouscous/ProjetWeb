@@ -17,6 +17,12 @@
             self::$password = $password ;
         }
 
+        public function getListStudentByIdClasse($id){
+            if($this->classExist($id)==false)
+                throw new Exception("La classe n'exise pas");
+            return $this->getListStudentByClasse($id);
+        }
+
         public function createClasse($nom){
             if($nom == NULL)
                 throw new Exception('Le nom est Null');
