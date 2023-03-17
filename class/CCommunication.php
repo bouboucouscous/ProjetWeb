@@ -34,6 +34,15 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function getListStudentByClasse($id){
+            $sqlQuery =" Select identifiantLogin , nom , prenom";
+            $sqlQuery .=" From Login";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         protected function getAdminListClasses(){
             $sqlQuery =" Select idCLasse";
             $sqlQuery .=" From Classe";
