@@ -24,10 +24,16 @@
                 throw new Exception("La personne n'exise pas");
             if(strcmp($this->userRole($id),"Eleve")!=0)
                 throw new Exception("La personne n'est pas un étudiant");
-
+            if($this->getEleveClasse($idStudent)!=Null)
+                throw new Exception("L'étudiant est déjà dans une classe");
+            $this->ajouterEleveClasse($idClasse,$idStudent);
+            $listeCours = $this->getListCoursFromIdClasse($idClasse);
+            foreach($listeCours as $row => $cours){
+                $this->CreateAppel($cours['idCours'],$idStudent);
+            }
         }
 
-        public getNbELeveFromClasse($idClasse){
+        public function getNbELeveFromClasse($idClasse){
             return $this->getNbStudentFromClasse($idClasse);
         }
 
