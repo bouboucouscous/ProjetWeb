@@ -34,6 +34,45 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        /*
+        protected function updateClasse($idClasse,$newId){
+            $sqlQuery =" Update Classe";
+            $sqlQuery .=" Set idClasse = :newId";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":newId",$newId);   
+            $statement->bindParam(":id",$idClasse);                
+            $statement->execute();
+        }
+
+        protected function updateColloneClasseInLogin($idClasse,$newId){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" Set idClasse = :newId";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":newId",$newId);   
+            $statement->bindParam(":id",$idClasse);                
+            $statement->execute();
+        }
+
+        protected function updateColloneClasseInCours($idClasse,$newId){
+            $sqlQuery =" Update Cours";
+            $sqlQuery .=" Set idClasse = :newId";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":newId",$newId);   
+            $statement->bindParam(":id",$idClasse);                
+            $statement->execute();
+        }*/
+
+        protected function deleteClassebyId($id){
+            $sqlQuery =" Delete From Classe";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);         
+            $statement->bindParam(":id",$id);         
+            $statement->execute();
+        }
+
         protected function getListCoursFromIdClasse($idClasse){
             $sqlQuery =" Select idCours";
             $sqlQuery .=" From Cours";
@@ -66,6 +105,31 @@
             }
         }
 
+        protected function SetNullIdsClasseOnLogin($id){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" Set idClasse = NULL";
+            $sqlQuery .=" Where idClasse = :class";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":class",$id);                  
+            $statement->execute();
+        }
+
+        protected function DeleteCoursbyId($id){
+            $sqlQuery =" Delete From Cours";
+            $sqlQuery .=" Where idCours = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);         
+            $statement->bindParam(":id",$id);         
+            $statement->execute();
+        }
+
+        protected function DeleteAppelbyCours($id){
+            $sqlQuery =" Delete From Appel";
+            $sqlQuery .=" Where idCours = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);         
+            $statement->bindParam(":id",$id);         
+            $statement->execute();
+        }
+
         protected function ajouterEleveClasse($idClasse,$idStudent){
             $sqlQuery =" Update Login";
             $sqlQuery .=" Set idClasse = :class";
@@ -91,7 +155,8 @@
             $sqlQuery =" Select identifiantLogin , nom , prenom";
             $sqlQuery .=" From Login";
             $sqlQuery .=" Where idClasse = :id";
-            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement = self::$Connexion->prepare($sqlQuery);   
+            $statement->bindParam(":id",$id);        
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
