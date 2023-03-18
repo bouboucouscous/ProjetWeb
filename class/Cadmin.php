@@ -17,6 +17,34 @@
             self::$password = $password ;
         }
 
+        public function deleteStudentFromClasse($idClasse,$idStudent){
+
+        }
+
+        /* FAUT SUPPRIMER LA CONTRAINTE FOREIGN KEY, PUIS METTRE A JOUR ET REMETTRE LA CONTRAINTE
+        public function updateClasse($idClasse,$nom){
+            if($this->classExist($idClasse)==false)
+                throw new Exception("La classe n'existe pas");
+            if($this->classExist($nom)==true)
+                throw new Exception("Le nom de classe existe déja");
+            $this->updateClasse($idClasse,$nom);
+            $this->updateColloneClasseInCours($idClasse,$nom);
+            $this->updateColloneClasseInLogin($idClasse,$nom);
+            
+        }*/
+
+        public function deleteClasse($idClasse){
+            if($this->classExist($idClasse)==false)
+                throw new Exception("La classe n'existe pas");
+            $listeCours = $this->getListCoursFromIdClasse($idClasse);
+            foreach($listeCours as $row => $cours){
+                $this->DeleteAppelbyCours($cours['idCours']);
+                $this->DeleteCoursbyId($cours['idCours']);
+            }
+            $this->SetNullIdsClasseOnLogin($idClasse);
+            $this->deleteClassebyId($idClasse);
+        }
+
         public function ajouterStudentClasse($idClasse,$idStudent){
             if($this->classExist($idClasse)==false)
                 throw new Exception("La classe n'existe pas");
