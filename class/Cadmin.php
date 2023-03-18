@@ -18,14 +18,14 @@
         }
 
         public function ajouterStudentClasse($idClasse,$idStudent){
-            if($this->classExist($id)==false)
-                throw new Exception("La classe n'exise pas");
-            if($this->userExist($id)==false)
-                throw new Exception("La personne n'exise pas");
-            if(strcmp($this->userRole($id),"Eleve")!=0)
+            if($this->classExist($idClasse)==false)
+                throw new Exception("La classe n'existe pas");
+            if($this->userExist($idStudent)==false)
+                throw new Exception("La personne n'existe pas");
+            if(strcmp($this->userRole($idStudent),"Eleve")!=0)
                 throw new Exception("La personne n'est pas un étudiant");
-            if($this->getEleveClasse($idStudent)!=Null)
-                throw new Exception("L'étudiant est déjà dans une classe");
+            if($classe = $this->getEleveClasse($idStudent) != null)
+                throw new Exception("L'étudiant est déjà dans une classe ".$classe);
             $this->ajouterEleveClasse($idClasse,$idStudent);
             $listeCours = $this->getListCoursFromIdClasse($idClasse);
             foreach($listeCours as $row => $cours){

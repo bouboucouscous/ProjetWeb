@@ -42,7 +42,7 @@
         require_once('../class/Cadmin.php');
         try{
             $admin = new Admin("DijouxR","123456");  
-            
+            $admin->ajouterStudentClasse("Groupe A","Test3");
         }catch(Exception $e){
             echo "<p>$e</p>";
         }

@@ -55,14 +55,15 @@
         }
 
         protected function getEleveClasse($id){
-            $sqlQuery =" Select idClasse";
-            $sqlQuery .=" From Login";
-            $sqlQuery .=" Where identifiantLogin = :id";
-            $statement = self::$Connexion->prepare($sqlQuery);          
-            $statement->bindParam(":id",$idClasse);         
-            $statement->execute();
-            $response = $statement->fetchAll(PDO::FETCH_ASSOC);
-            return $response[0]['idClasse'];
+            $classe = NULL;
+            $resultat = $this->requeteSelectSQL("idClasse","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif
+            if(count($resultat)==1){
+                return $resultat[0]["idClasse"];
+            }
+            else{
+                return NULL;
+            }
         }
 
         protected function ajouterEleveClasse($idClasse,$idStudent){
@@ -106,7 +107,7 @@
         protected function classExist($id){
             $bool = false;
             $resultat = $this->requeteSelectSQL("idClasse",
-                                                "Login",
+                                                "Classe",
                                                 "idClasse",
                                                 $id);
             // récupération du résultat dans un tableau associatif       
