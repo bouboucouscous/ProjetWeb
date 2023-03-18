@@ -34,6 +34,48 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function getListCoursFromIdClasse($idClasse){
+            $sqlQuery =" Select idCours";
+            $sqlQuery .=" From Cours";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":id",$idClasse);         
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function CreateAppel($idCours,$idStudent)
+        {
+            $sqlQuery =" Insert into Appel (presence, idCours, identifiantLogin)";
+            $sqlQuery .=" Values ( 0, :idCours , :id)";
+            $statement = self::$Connexion->prepare($sqlQuery);    
+            $statement->bindParam(":idCours",$idCours);       
+            $statement->bindParam(":id",$idStudent);         
+            $statement->execute();
+        }
+
+        protected function getEleveClasse($id){
+            $classe = NULL;
+            $resultat = $this->requeteSelectSQL("idClasse","Login","identifiantLogin",$id);
+            // récupération du résultat dans un tableau associatif
+            if(count($resultat)==1){
+                return $resultat[0]["idClasse"];
+            }
+            else{
+                return NULL;
+            }
+        }
+
+        protected function ajouterEleveClasse($idClasse,$idStudent){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" Set idClasse = :class";
+            $sqlQuery .=" Where identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":class",$idClasse);          
+            $statement->bindParam(":id",$idStudent);         
+            $statement->execute();
+        }
+
         protected function getNbStudentFromClasse($id){
             $sqlQuery =" Select count(identifiantLogin)cpt";
             $sqlQuery .=" From Login";
@@ -65,7 +107,7 @@
         protected function classExist($id){
             $bool = false;
             $resultat = $this->requeteSelectSQL("idClasse",
-                                                "Login",
+                                                "Classe",
                                                 "idClasse",
                                                 $id);
             // récupération du résultat dans un tableau associatif       

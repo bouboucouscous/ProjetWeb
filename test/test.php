@@ -39,38 +39,10 @@
     </div>
 <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        require_once('../class/Celeve.php');
-        require_once('../class/Cprofesseur.php');
+        require_once('../class/Cadmin.php');
         try{
-            $eleve = new Eleve("CoussyR","123456");
-            $appel = $eleve->getFicheAppel();
-            foreach ($appel as $col) {
-                foreach ($col as $lin) {
-                    echo "<p>$lin</p>";
-                }              
-            }    
-            echo "<p>/////////////////////////////</p>";
-            $prof = new Professeur("ChervyH","123456");
-            $cours = $prof->getListCours();
-            foreach ($cours as $col) {
-                foreach ($col as $lin) {
-                    echo "<p>$lin</p>";
-                }              
-            }
-            echo "<p>/////////////////////////////</p>";
-            $appel = $prof->getListAppelProfByCours("Anglais");
-            foreach ($appel as $col) {
-                foreach ($col as $lin) {
-                    echo "<p>$lin</p>";
-                }              
-            }
-            echo "<p>/////////////////////////////</p>";
-            $res = $prof->setElevePresent("Anglais","CoussyR");
-            if($res){
-                echo "<p>oui</p>";
-            }else{
-                echo "<p>non</p>";
-            }
+            $admin = new Admin("DijouxR","123456");  
+            $admin->ajouterStudentClasse("Groupe A","Test3");
         }catch(Exception $e){
             echo "<p>$e</p>";
         }
