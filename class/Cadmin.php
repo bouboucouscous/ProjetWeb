@@ -18,7 +18,15 @@
         }
 
         public function deleteStudentFromClasse($idClasse,$idStudent){
-
+            if($this->classExist($idClasse)==false)
+                throw new Exception("La classe n'existe pas");
+            if($this->userExist($idStudent)==false)
+                throw new Exception("La personne n'existe pas");
+            $listeCours = $this->getListCoursFromIdClasse($idClasse);
+            foreach($listeCours as $row => $cours){
+                $this->deleteAppelbyCoursAndStudent($cours['idCours'],$idStudent);    
+            }
+            $this->SetNullClasseWithId($idStudent);
         }
 
         /* FAUT SUPPRIMER LA CONTRAINTE FOREIGN KEY, PUIS METTRE A JOUR ET REMETTRE LA CONTRAINTE
@@ -67,7 +75,7 @@
 
         public function getListStudentByIdClasse($id){
             if($this->classExist($id)==false)
-                throw new Exception("La classe n'exise pas");
+                throw new Exception("La classe n'existe pas");
             return $this->getListStudentByClasse($id);
         }
 

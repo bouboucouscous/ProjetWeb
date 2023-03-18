@@ -65,6 +65,25 @@
             $statement->execute();
         }*/
 
+        protected function SetNullClasseWithId($id){
+            $sqlQuery =" Update Login";
+            $sqlQuery .=" Set idClasse = NULL";
+            $sqlQuery .=" Where identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":id",$id);                  
+            $statement->execute();
+        }
+
+        protected function deleteAppelbyCoursAndStudent($idCours,$id)
+        {
+            $sqlQuery =" Delete From Appel";
+            $sqlQuery .=" Where idCours = :idCours AND identifiantLogin = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);  
+            $statement->bindParam(":idCours",$idCours);       
+            $statement->bindParam(":id",$id);         
+            $statement->execute();
+        }
+
         protected function deleteClassebyId($id){
             $sqlQuery =" Delete From Classe";
             $sqlQuery .=" Where idClasse = :id";
