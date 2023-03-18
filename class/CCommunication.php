@@ -34,6 +34,17 @@
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        protected function getNbStudentFromClasse($id){
+            $sqlQuery =" Select count(identifiantLogin)cpt";
+            $sqlQuery .=" From Login";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":id",$id);         
+            $statement->execute();
+            $response = $statement->fetchAll(PDO::FETCH_ASSOC);
+            return $response[0]["cpt"];
+        }
+
         protected function getListStudentByClasse($id){
             $sqlQuery =" Select identifiantLogin , nom , prenom";
             $sqlQuery .=" From Login";

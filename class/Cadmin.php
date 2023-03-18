@@ -17,6 +17,20 @@
             self::$password = $password ;
         }
 
+        public function ajouterStudentClasse($idClasse,$idStudent){
+            if($this->classExist($id)==false)
+                throw new Exception("La classe n'exise pas");
+            if($this->userExist($id)==false)
+                throw new Exception("La personne n'exise pas");
+            if(strcmp($this->userRole($id),"Eleve")!=0)
+                throw new Exception("La personne n'est pas un étudiant");
+
+        }
+
+        public getNbELeveFromClasse($idClasse){
+            return $this->getNbStudentFromClasse($idClasse);
+        }
+
         public function getListStudentByIdClasse($id){
             if($this->classExist($id)==false)
                 throw new Exception("La classe n'exise pas");
