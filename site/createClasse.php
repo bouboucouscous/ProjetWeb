@@ -34,33 +34,33 @@ include_once('../class/Cadmin.php');
         <input type="submit" id='submit' value='Créer'>
       </form>
       <div class="ensemble">
-      <table class="tableauClasse" style="position:relative;">
-        <thead>
-          <th style="display:none">ID</th>
-          <th>Nom</th>
-          <th>Nombre Élève</th>
-        </thead>
-        <tbody>
-          <tr onclick="UpdateClasse(this,'nouveau')">
-            <td>...</td>
-            <td>...</td>
-          </tr>
-          <?php
-          $tab = $Admin->getListClasse();
-          foreach ($tab as $key => $value) {            
-            echo '<tr onclick="UpdateClasse(this,\''.$value["idCLasse"].'\')">';
-            echo '<td>'.$value["idCLasse"].'</td>';
-            echo '<td>'.$Admin->getNbELeveFromClasse($value["idCLasse"]).'</td>';
-            echo '</tr>';
-          }
-          ?> 
-        </tbody>
-      </table>
-      <br>
-      <form class="delete" action="function/deleteClasse.php" method="GET" >
-        <input hidden name="id" value="">
-        <input disabled type="submit" id='submit' value='Supprimer Classe'>
-      </form>      
+        <table class="tableauClasse" style="position:relative;">
+          <thead>
+            <th style="display:none">ID</th>
+            <th>Nom</th>
+            <th>Nombre Élève</th>
+          </thead>
+          <tbody>
+            <tr onclick="UpdateClasse(this,'nouveau')">
+              <td>...</td>
+              <td>...</td>
+            </tr>
+            <?php
+            $tab = $Admin->getListClasse();
+            foreach ($tab as $key => $value) {            
+              echo '<tr onclick="UpdateClasse(this,\''.$value["idCLasse"].'\')">';
+              echo '<td>'.$value["idCLasse"].'</td>';
+              echo '<td>'.$Admin->getNbELeveFromClasse($value["idCLasse"]).'</td>';
+              echo '</tr>';
+            }
+            ?> 
+          </tbody>
+        </table>
+        <br>
+        <form class="delete" action="function/deleteClasse.php" method="GET" >
+          <input hidden name="id" value="">
+          <input disabled type="submit" id='submit' value='Supprimer Classe'>
+        </form>      
         <?php      
           $message="";
           if (isset($_GET["message"])) 
@@ -85,5 +85,11 @@ include_once('../class/Cadmin.php');
           </tr>
         </tbody>
       </table>
+      <br>
+      <form class="delete" action="function/deleteEleveByClasse.php" method="GET" >
+        <input hidden name="idClasse" value="">
+        <input hidden name="idEleve" value="">
+        <input disabled type="submit" id='submit' value='Supprimer Eleve de la classe'>
+      </form>      
 </body>
 </html>
