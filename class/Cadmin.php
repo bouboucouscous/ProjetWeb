@@ -41,6 +41,10 @@
             
         }*/
 
+        public function getListProf(){
+            return $this->getAdminListProf();
+        }
+
         public function getListCours(){
             return $this->getAdminListCours();
         }

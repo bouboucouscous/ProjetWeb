@@ -20,6 +20,7 @@ function closeNav() {
 
 var lastRow = null;
 var lastRow2 = null;
+var lastRow3 = null;
 var idClasse = null;
 
 function UpdateUser(e, id) {
@@ -102,15 +103,16 @@ function traiterReponseDemande2(donnees) {
     var i = 2;
     data.forEach(element => {
       var nouvelleLigne = refTable.insertRow(i);
-        var nouvelleCellule1 = nouvelleLigne.insertCell(0);
-        var nouvelleCellule2 = nouvelleLigne.insertCell(1);
-        var nouvelleCellule3 = nouvelleLigne.insertCell(2);
-        var nouveauTexte = document.createTextNode(element.identifiantLogin);
-        nouvelleCellule1.appendChild(nouveauTexte);
-        nouveauTexte = document.createTextNode(element.nom);
-        nouvelleCellule2.appendChild(nouveauTexte);
-        nouveauTexte = document.createTextNode(element.prenom);
-        nouvelleCellule3.appendChild(nouveauTexte);
+      nouvelleLigne.setAttribute('onclick','DeleteUserToClasse(this,"'+element.identifiantLogin+'")');
+      var nouvelleCellule1 = nouvelleLigne.insertCell(0);
+      var nouvelleCellule2 = nouvelleLigne.insertCell(1);
+      var nouvelleCellule3 = nouvelleLigne.insertCell(2);
+      var nouveauTexte = document.createTextNode(element.identifiantLogin);
+      nouvelleCellule1.appendChild(nouveauTexte);
+      nouveauTexte = document.createTextNode(element.nom);
+      nouvelleCellule2.appendChild(nouveauTexte);
+      nouveauTexte = document.createTextNode(element.prenom);
+      nouvelleCellule3.appendChild(nouveauTexte);
       i++;
     });
   }
@@ -127,6 +129,9 @@ function cleanTab() {
 }
 
 function AddUserToClasse(){
+  try {
+    DeleteUserToClasse(null, "nouveau")
+  } catch (error) {}
   if (idClasse != null) 
   {
     reponse = prompt("Ajouter identifiant de l'élève", "identifiantEleve");
@@ -138,3 +143,33 @@ function AddUserToClasse(){
   }
 }
 
+function DeleteUserToClasse(e, id)
+{
+  if (id == "nouveau") {
+    document.forms[2].elements[2].disabled = true;
+    lastRow3.style.background = "rgb(255, 255, 255)";
+    lastRow3 = null;
+  }
+  else {
+    document.forms[2].elements[2].disabled = false;
+    document.forms[2].elements[0].value = idClasse;
+    document.forms[2].elements[1].value = id;
+    if (lastRow3 != null) {
+      lastRow3.style.background = "rgb(255, 255, 255)"
+    }
+    e.style.background = "rgb(69, 123, 230)";
+    lastRow3 = e;
+  }
+}
+
+
+function deleteCours(e,id)
+{
+  document.forms[1].elements[0].value = id;
+  document.forms[1].elements[1].disabled = false;
+  if (lastRow != null) {
+    lastRow.style.background = "rgb(255, 255, 255)"
+  }
+  e.style.background = "rgb(69, 123, 230)";
+  lastRow = e;
+}

@@ -13,12 +13,11 @@ catch (Exception $e)
     header("Location: ../login.php?message=" . urlencode($message));;
     exit();
 }
-if(isset($_GET["id"]))
+if(isset($_GET["idClasse"],$_GET["idEleve"]))
 {
-    try
-    {
-        $Admin->deleteClasse($_GET["id"]);
-    }
+    try {
+        $Admin->deleteStudentFromClasse($_GET["idClasse"],$_GET["idEleve"]);
+    } 
     catch(Exception $e)
     {
         $message="Erreur : ".$e->getMessage();
@@ -26,12 +25,12 @@ if(isset($_GET["id"]))
         header("Location: ../createClasse.php?message=" . urlencode($message));
         exit();          
     }
-    $message="Classe bien supprimé";
+    $message="utilisateur bien supprimé de la classe";
     header("Location: ../createClasse.php?message=" . urlencode($message));
     exit();
 }
 else{
-    $message="Probleme avec l'id";
+    $message="Probleme avec un id";
     header("Location: ../createClasse.php?message=" . urlencode($message));
     exit();
 }

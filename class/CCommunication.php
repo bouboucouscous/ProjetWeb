@@ -65,6 +65,15 @@
             $statement->execute();
         }*/
 
+        protected function getAdminListProf(){
+            $sqlQuery =" Select identifiantLogin";
+            $sqlQuery .=" From Login";
+            $sqlQuery .=" Where role = 'Professeur'";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         protected function getAdminListCours(){
             $sqlQuery =" Select idCours, idClasse, date, idProf, NomCours";
             $sqlQuery .=" From Cours";
