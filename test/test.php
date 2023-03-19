@@ -42,7 +42,7 @@
         require_once('../class/Cadmin.php');
         try{
             $admin = new Admin("DijouxR","123456");  
-            $admin->deleteStudentFromClasse("TEST","Test3");
+            $admin->deleteCour("CACA");
         }catch(Exception $e){
             echo "<p>$e</p>";
         }

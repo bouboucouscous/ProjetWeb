@@ -41,6 +41,42 @@
             
         }*/
 
+        public function getListCours(){
+            return $this->getAdminListCours();
+        }
+
+        public function deleteCour($idCour){
+            if($this->courExist($idCour)==false)
+                throw new Exception("Le cours n'existe pas");
+            $this->deleteCoursFromAppelbyId($idCour);
+            $this->deleteCoursFromCourbyId($idCour);
+        }
+
+        public function createCour($cours,$classe,$date,$prof){
+            if($this->classExist($classe)==false)
+                throw new Exception("La classe n'existe pas");
+            if($this->userExist($prof)==false)
+                throw new Exception("Le prof n'existe pas");
+            if(strcmp($this->userRole($prof),"Professeur")!=0)
+                throw new Exception("Le professeur n'est pas un professeur");
+            if($date == NULL)
+                throw new Exception("La date est Null");
+            if($cours==NULL)
+                throw new Exception("Le cours est NuLL");
+            $baseId = $idCours = $cours;
+            $i = 1;
+            while($this->courExist($idCours)==true){
+                $idCours = $baseId.$i;
+                $i=$i+1;
+            }
+            $this->createCours($idCours,$classe,$date,$prof,$cours);
+            $listeEtudiant = $this->getListStudentFromIdClasse($classe);
+            foreach($listeEtudiant as $row => $student){
+                $this->CreateAppel($idCours,$student['identifiantLogin']);
+            }
+
+        }
+
         public function deleteClasse($idClasse){
             if($this->classExist($idClasse)==false)
                 throw new Exception("La classe n'existe pas");

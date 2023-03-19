@@ -65,6 +65,65 @@
             $statement->execute();
         }*/
 
+        protected function getAdminListCours(){
+            $sqlQuery =" Select idCours, idClasse, date, idProf, NomCours";
+            $sqlQuery .=" From Cours";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function deleteCoursFromAppelbyId($idCour){
+            $sqlQuery =" Delete From Appel";
+            $sqlQuery .=" Where idCours = :idCours";
+            $statement = self::$Connexion->prepare($sqlQuery);  
+            $statement->bindParam(":idCours",$idCour);             
+            $statement->execute();
+        }
+
+        protected function deleteCoursFromCourbyId($idCour){
+            $sqlQuery =" Delete From Cours";
+            $sqlQuery .=" Where idCours = :idCours";
+            $statement = self::$Connexion->prepare($sqlQuery);  
+            $statement->bindParam(":idCours",$idCour);               
+            $statement->execute();
+        }
+
+        protected function getListStudentFromIdClasse($classe){
+            $sqlQuery =" Select identifiantLogin";
+            $sqlQuery .=" From Login";
+            $sqlQuery .=" Where idClasse = :id";
+            $statement = self::$Connexion->prepare($sqlQuery);          
+            $statement->bindParam(":id",$classe);         
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        protected function createCours($id,$classe,$date,$prof,$cours){
+            $sqlQuery =" Insert into Cours (idCours, idClasse, date, idProf, NomCours)";
+            $sqlQuery .=" Values ( :id , :class , :date , :prof , :nom )";
+            $statement = self::$Connexion->prepare($sqlQuery);    
+            $statement->bindParam(":id",$id);       
+            $statement->bindParam(":class",$classe);
+            $statement->bindParam(":date",$date);  
+            $statement->bindParam(":prof",$prof);  
+            $statement->bindParam(":nom",$cours);     
+            $statement->execute();
+        }
+
+        protected function courExist($id){
+            $bool = false;
+            $resultat = $this->requeteSelectSQL("idCours",
+                                                "Cours",
+                                                "idCours",
+                                                $id);
+            // récupération du résultat dans un tableau associatif       
+            if(count($resultat)==1 && strcmp($resultat[0]["idCours"],$id)==0){
+                $bool = true;
+            }
+            return $bool;
+        }
+
         protected function SetNullClasseWithId($id){
             $sqlQuery =" Update Login";
             $sqlQuery .=" Set idClasse = NULL";
