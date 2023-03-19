@@ -1,4 +1,5 @@
-<?php 
+<?php
+include_once('../class/Cadmin.php');
     session_start();
     $username = $_SESSION["username"];
     $password = $_SESSION["password"];
@@ -19,27 +20,13 @@
     <link rel="stylesheet" href="CSS/user.css">
     <link rel="stylesheet" href="CSS/professeur.css">    
     <link rel="stylesheet" href="CSS/admin.css">
-    <script src="JS/script.js"></script>
+    <link rel="stylesheet" href="CSS/formAdmin.css">
+    <script src="JS/jquery-3.6.3.min.js"></script>
     <script src="JS/admin.js"></script>
 </head>
 <body>
     <div class="barreHaut">
-        <div class="noirCestNoir" onclick="openNav()" style="cursor:pointer">
-            <div class="user">
-                <div class="nom"><?php //ajouter nom admin?></div>
-                <div class="prenom"><?php //ajouter prenom admin?> &#9207;
-                </div>                
-            </div>
-        </div>
-        <div class="titre">Admin</div>
-        <div><img src="CSS/image/3il_Logo.png" class="logo"></div>
-    </div>
-    <div id="MENU" class="MENU">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="createUser.php">Utilisateur</a>
-        <a href="createCours.php">Cours</a>
-        <a href="createTeam.php">Classe</a>
-    </div>
+    <?php include "template/leftMenu.php";?>
     <div class="carreblanc">      
       <form action=".php" method="POST">
           <input type="text" placeholder="Nom matiere" name="nomMatiere" required> 

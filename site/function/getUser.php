@@ -1,5 +1,5 @@
 <?php
-include_once('../class/Cadmin.php');
+include_once('../../class/Cadmin.php');
 session_start();
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
@@ -10,7 +10,7 @@ try
 catch (Exception $e) 
 {
     $message = "Utilisateur incorrect";
-    header("Location: login.php?message=" . urlencode($message));;
+    header("Location: ../login.php?message=" . urlencode($message));;
     exit();
 }
 

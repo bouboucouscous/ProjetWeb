@@ -16,7 +16,7 @@
         private function requeteSelectSQL($select,$from,$where,$id){
             $sqlQuery =" Select ".$select;
             $sqlQuery .=" From ".$from;
-            $sqlQuery .=" Where ".$where.' = :id';
+            $sqlQuery .=" Where ".$where." = :id";
             $statement = self::$Connexion->prepare($sqlQuery);          
             $statement->bindParam(":id",$id);
             $statement->execute();
@@ -223,7 +223,7 @@
             $sqlQuery .=" From Login";
             $sqlQuery .=" Where idClasse = :id";
             $statement = self::$Connexion->prepare($sqlQuery);          
-            $statement->bindParam(":id",$id);         
+            $statement->bindParam(":id",$id);
             $statement->execute();
             $response = $statement->fetchAll(PDO::FETCH_ASSOC);
             return $response[0]["cpt"];
@@ -234,7 +234,7 @@
             $sqlQuery .=" From Login";
             $sqlQuery .=" Where idClasse = :id";
             $statement = self::$Connexion->prepare($sqlQuery);   
-            $statement->bindParam(":id",$id);        
+            $statement->bindParam(":id",$id);
             $statement->execute();
             return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -253,7 +253,7 @@
                                                 "Classe",
                                                 "idClasse",
                                                 $id);
-            // récupération du résultat dans un tableau associatif       
+            // récupération du résultat dans un tableau associatif
             if(count($resultat)==1 && strcmp($resultat[0]["idClasse"],$id)==0){
                 $bool = true;
             }
@@ -266,7 +266,7 @@
             $statement = self::$Connexion->prepare($sqlQuery); 
             $statement->bindParam(":id",$nom);
             $statement->execute();
-            return $this->classExit($id);
+            return $this->classExist($id);
         }
 
         protected function updateUserWithoutPass($id,$nom,$prenom,$email,$role){

@@ -20,7 +20,7 @@
 </head>
 <body>
   <div class="carrecolorer">
-    <form action="forgotMDP.php" method="POST">
+    <form action="function/forgotMDP.php" method="POST">
       <img src="CSS/image/3il_Logo.png" class="logo">
       <br><br>
       <?php echo '<div id="errorMessage" style="text-align: center; font-size: 25px; font-weight: bold;">'.$message.'</div>'?>

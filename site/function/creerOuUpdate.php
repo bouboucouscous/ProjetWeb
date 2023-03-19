@@ -1,5 +1,5 @@
 <?php
-require_once('../class/Cadmin.php');
+require_once('../../class/Cadmin.php');
 session_start();
 $username = $_SESSION["username"];
 $password = $_SESSION["password"];
@@ -10,7 +10,7 @@ try
 catch (Exception $e) 
 {
     $message = "Utilisateur incorrect";
-    header("Location: login.php?message=" . urlencode($message));;
+    header("Location: ../login.php?message=" . urlencode($message));;
     exit();
 }
 
@@ -38,12 +38,12 @@ if(isset($_GET["cree"],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['ro
         catch(Exception $e)
         {
             $message="Erreur : ".$e->getMessage();
-            header("Location: createUser.php?message=" . urlencode($message));
+            header("Location: ../createUser.php?message=" . urlencode($message));
             exit();          
         }
 
         $message="Utilisateur créé avec succès.";
-        header("Location: createUser.php?message=" . urlencode($message));
+        header("Location: ../createUser.php?message=" . urlencode($message));
         exit();
     }
     else
@@ -66,17 +66,17 @@ if(isset($_GET["cree"],$_POST['nom'],$_POST['prenom'],$_POST['email'],$_POST['ro
         {
             $message="Erreur : ".$e->getMessage();
             echo $message;
-            header("Location: createUser.php?message=" . urlencode($message));
+            header("Location: ../createUser.php?message=" . urlencode($message));
             exit();          
         }
         $message="Utilisateur modifiée avec succès.";
-        header("Location: createUser.php?message=" . urlencode($message));
+        header("Location: ../createUser.php?message=" . urlencode($message));
         exit();
     }
 }
 else
 {
     $message="Problème avec le formulaire ne pas modifié le css.";
-    header("Location: createUser.php?message=" . urlencode($message));
+    header("Location: ../createUser.php?message=" . urlencode($message));
     exit();
 }

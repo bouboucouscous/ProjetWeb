@@ -12,26 +12,26 @@ if (isset($_POST["username"]))
             $message="Votre mot de passe a été réinitialiser veuillez cliquer sur ce lien pour modifier celui de votre compte.";
             mail( $to, $subject, $message);
             $message = "Email envoyée.";
-            header("Location: login.php?message=" . urlencode($message));
+            header("Location: ../login.php?message=" . urlencode($message));
             exit();
         }
         else
         {
             $message = "Nom d'utilisateur non défini.";
-            header("Location: oublieMDP.php?message=" . urlencode($message));
+            header("Location: ../oublieMDP.php?message=" . urlencode($message));
             exit();
         }
     }
     else
     {
         $message = "Email vide.";
-        header("Location: oublieMDP.php?message=" . urlencode($message));
+        header("Location: ../oublieMDP.php?message=" . urlencode($message));
         exit();
     }
 }
 else
 {
     $message = "Nom d'utilisateur vide.";
-    header("Location: oublieMDP.php?message=" . urlencode($message));
+    header("Location: ../oublieMDP.php?message=" . urlencode($message));
     exit();
 }

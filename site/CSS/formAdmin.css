@@ -1,4 +1,4 @@
-form{
+form, table{
     break-inside: avoid;
     page-break-inside: avoid;
 }
@@ -52,4 +52,9 @@ table{
 
 .msg{
     color: rgb(30, 0, 255);
+}
+
+.ensemble{
+    break-inside: avoid;
+    page-break-inside: avoid;
 }

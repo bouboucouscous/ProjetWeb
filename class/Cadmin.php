@@ -78,7 +78,7 @@
         }
 
         public function deleteClasse($idClasse){
-            if($this->classExist($idClasse)==false)
+            if(!$this->classExist($idClasse))
                 throw new Exception("La classe n'existe pas");
             $listeCours = $this->getListCoursFromIdClasse($idClasse);
             foreach($listeCours as $row => $cours){
@@ -90,7 +90,7 @@
         }
 
         public function ajouterStudentClasse($idClasse,$idStudent){
-            if($this->classExist($idClasse)==false)
+            if(!$this->classExist($idClasse))
                 throw new Exception("La classe n'existe pas");
             if($this->userExist($idStudent)==false)
                 throw new Exception("La personne n'existe pas");
@@ -110,8 +110,8 @@
         }
 
         public function getListStudentByIdClasse($id){
-            if($this->classExist($id)==false)
-                throw new Exception("La classe n'existe pas");
+            if(!$this->classExist($id))
+                throw new Exception("La classe n'exise pas");
             return $this->getListStudentByClasse($id);
         }
 
@@ -191,5 +191,9 @@
                 $password = password_hash($password,PASSWORD_DEFAULT);
                 $this->updateUserWithPass($id,$nom,$prenom,$email,$role,$password);
             }
+        }
+        
+        public function adminUserExist($id){
+            return $this->userExist($id);
         }
     }
