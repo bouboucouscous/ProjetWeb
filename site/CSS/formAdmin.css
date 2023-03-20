@@ -1,3 +1,7 @@
+.carreblanc{
+    column-count: 2;
+}
+
 form, table{
     break-inside: avoid;
     page-break-inside: avoid;

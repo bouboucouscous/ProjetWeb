@@ -56,6 +56,5 @@
     margin: 150px;
     margin-top: 50px;
     position: relative;
-    column-count: 2;
     column-rule: solid rgb(23, 65, 148);
 }
