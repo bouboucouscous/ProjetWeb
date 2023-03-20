@@ -17,12 +17,12 @@
 <html lang="fr">
   <head>
     <meta charset="UTF-8">
-    <title></title>    
+    <title></title>
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/background.css">
     <link rel="stylesheet" href="CSS/user.css">
-    <link rel="stylesheet" href="CSS/etudiant.css">
-    <script src="JS/script.js"></script>
+    <link rel="stylesheet" href="CSS/professeur.css">
+    <script src="JS/professeur.js"></script>
     <script src="JS/jquery-3.6.3.min.js"></script>
 
 </head>
@@ -39,55 +39,66 @@
     </div>
 
     <div class="carreblanc">
-      <div id="cours">
-        
-       <?php
-try {
-    $cours = $prof->getListCours();
-    foreach ($cours as $row) {
-        echo "<p><a href=\"?cours=".$row['NomCours']."\">Nom Cours : ".$row['NomCours']."</a></p>";
-        echo "<p>Date : ".$row['date']."</p>";
-    }
-
-    if(isset($_GET['cours'])){
-        $appel = $prof->getListAppelProfByCours($_GET['cours']);
-        echo "----------------------------";
-        echo "<p>Liste d'appel pour le cours ".$_GET['cours']."</p>";
-        foreach ($appel as $row) {
-            echo "<p>Eleve : ".$row['identifiantLogin']."</p>";
-            echo "<p>Presence : <span id='presence_".$row['identifiantLogin']."'>".$row['presence']."</span></p>";
-            echo "<button onclick=\"setPresence('".$_GET['cours']."','".$row['identifiantLogin']."', true)\">Présent</button>";
-            echo "<button onclick=\"setPresence('".$_GET['cours']."','".$row['identifiantLogin']."', false)\">Absent</button>";
-        }
-    }
-} catch(Exception $e) {
-    echo "<p>".$e->getMessage()."</p>";
-}
-?>
-
-<script>
-function setPresence(cours, eleve, isPresent) {
-   
-    $.post("/~chabert/site/professeurAPI.php?action=setPresent",
-    {
-        cours:cours,
-        eleve:eleve,
-        present:isPresent
-    },
-    (result,status)=>{
-        const resultat = JSON.parse(result);
-        //recup boolean
-        console.log($("#presence_"));
-        $("#presence_"+resultat.eleve).text(resultat.present == "true" ? "1" : "0");
-    }
-
-        );
-    
-}
-</script>
-
-
-      </div>
+        <div id="cours">        
+            <?php
+                try 
+                {
+                    $cours = $prof->getListCours();
+                    $time= time();
+                    $dateCurrentDay =  date( "Y-m-d H:i:s", $time );
+            ?>
+            <table>
+                <thead>
+                    <th>Nom Cours</th>
+                    <th>Date</th>
+                </thead>
+                <tbody>
+                    <?php        
+                            foreach ($cours as $row) 
+                            {
+                                if ($row['date'] <= $dateCurrentDay) 
+                                {
+                                    echo "<tr onclick='window.location.href = \"?cours=".$row['NomCours']."\"'>";
+                                    echo '<td>'.$row['NomCours'].'</td>';
+                                    echo '<td>'.$row['date'].'</td>';
+                                    echo '</tr>';
+                                }
+                            }
+                    ?>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                <tr><th colspan="2"><?php echo "Liste d'appel pour le cours ".$_GET['cours']."";?></th></tr>
+                    <th>Eleve</th>
+                    <th>Présence</th>
+                </thead>
+                <tbody>
+                    <?php
+                            if(isset($_GET['cours'])){
+                                $appel = $prof->getListAppelProfByCours($_GET['cours']);
+                                foreach ($appel as $row) 
+                                {
+                                    echo "<tr>";
+                                    echo '<td>'.$row['identifiantLogin'].'</td>';
+                                    echo '<td>'."<input type='checkbox' onclick=\"setPresence('".$_GET['cours']."','".$row['identifiantLogin']."',this)\"";
+                                    if($row['presence']==1)
+                                    {
+                                        echo "checked";
+                                    }
+                                    echo '></td>';
+                                    echo '</tr>';
+                                }
+                            }
+                        } 
+                        catch(Exception $e) 
+                        {
+                            echo $e->getMessage();
+                        }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

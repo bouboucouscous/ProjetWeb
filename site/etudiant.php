@@ -37,16 +37,34 @@
     </div>
     <div class="carreblanc">
         <?php
-            include_once('../class/Celeve.php'); 
-            try{ 
-                $presence = $eleve->getFicheAppel(); 
-                foreach ($presence as $row){
-                    echo "<p><a href=\"?presence=".$row['presence']."\">Presence : ".$row['presence']."</a></p>";
-                    echo "<p>Cours: ".$row['idCours']."</p>";
-                    }
-                }catch(Exception $e){
-
+            include_once('../class/Celeve.php');
+            $time= time();
+            $dateCurrentDay =  date( "Y-m-d H:i:s", $time );
+            try
+            { 
+              $presence = $eleve->getFicheAppel();
+              echo '<ul">';
+              $estAbsent = false;
+              foreach ($presence as $row)
+              {
+                if ($row['date'] < $dateCurrentDay && $row['presence']==0 ) 
+                {
+                  $estAbsent = true;
+                  $splitDate=explode(" ", $row['date']);
+                  $jour = $splitDate[0];
+                  $heure = $splitDate[1];
+                  echo '<li>';
+                  echo "Vous avez été absent au cours de ".$row['idCours']." le <span class='date'>".$jour." à ".$heure."</span>";
+                  echo '</li>';
                 }
+              }
+              echo '</ul>';
+
+              if (!$estAbsent) {
+                echo 'Aucune absence.';
+              }
+            }
+            catch(Exception $e){echo $e;}
             ?>
     </div>
 </body>
