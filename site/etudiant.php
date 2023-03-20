@@ -1,3 +1,19 @@
+<?php
+  include_once('../class/Celeve.php');
+  session_start();
+  $username = $_SESSION["username"];
+  $password = $_SESSION["password"];
+  
+  try {
+    $eleve = new Eleve($username,$password);
+  } catch (Exception $e) {
+    $message = "Utilisateur incorrect";
+    header("Location: login.php?message=" . urlencode($message));;
+    exit();
+  }
+  $nom = $eleve->GetNomPrenom()[0]["nom"];
+  $prenom = $eleve->GetNomPrenom()[0]["prenom"];
+?>
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -11,10 +27,9 @@
 <body>
     <div class="barreHaut">
         <div>
-            <div><img src="CSS/image/profile2.jpg" class="ppProfile"></div>
             <div class="user">
-                <div class="nom">Dijoux</div>
-                <div class="prenom">Rémi</div>
+                <div class="nom"><?php echo $nom;?></div>
+                <div class="prenom"><?php echo $prenom;?> </div>
             </div>
         </div>
         <div class="titre">Relevé d'absence</div>
@@ -23,8 +38,7 @@
     <div class="carreblanc">
         <?php
             include_once('../class/Celeve.php'); 
-            try{
-                $eleve = new Eleve("CoussyR", "123456"); 
+            try{ 
                 $presence = $eleve->getFicheAppel(); 
                 foreach ($presence as $row){
                     echo "<p><a href=\"?presence=".$row['presence']."\">Presence : ".$row['presence']."</a></p>";
