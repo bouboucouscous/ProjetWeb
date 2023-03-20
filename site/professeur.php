@@ -1,18 +1,16 @@
 <?php
-  include_once('../class/Cprofesseur.php');
-  session_start();
-  $username = $_SESSION["username"];
-  $password = $_SESSION["password"];
-  
-  try {
-    $prof = new Professeur($username,$password);
-  } catch (Exception $e) {
-    $message = "Utilisateur incorrect";
-    header("Location: login.php?message=" . urlencode($message));;
-    exit();
-  }
-  $nom = $prof->GetNomPrenom()[0]["nom"];
-  $prenom = $prof->GetNomPrenom()[0]["prenom"];
+    include_once('../class/Cprofesseur.php');
+    session_start();
+    $username = $_SESSION["username"];
+    $password = $_SESSION["password"];
+    try {
+      $prof = new Professeur($username,$password);
+      $nom = $prof->GetNomPrenom()[0]["nom"];
+      $prenom = $prof->GetNomPrenom()[0]["prenom"];
+    } catch (Exception $e) {
+        header("Location: login.php?message=" . urlencode($e));
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -39,11 +37,11 @@
         <div class="titre">Relevé d'absence</div>
         <div><img src="CSS/image/3il_Logo.png" class="logo"></div>
     </div>
+
     <div class="carreblanc">
       <div id="cours">
+        
        <?php
-include_once('../class/Cprofesseur.php');
-
 try {
     $cours = $prof->getListCours();
     foreach ($cours as $row) {

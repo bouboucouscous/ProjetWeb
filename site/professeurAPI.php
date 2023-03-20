@@ -3,7 +3,16 @@
 include_once('../class/Cprofesseur.php');
 
 function setPresence() { 
-	$prof = new Professeur("ChervyH","123456");	
+	session_start();
+    $username = $_SESSION["username"];
+    $password = $_SESSION["password"];
+    try {
+      $prof = new Professeur($username,$password);
+      //$prof = new Professeur("ChervyH","123456");	
+    } catch (Exception $e) {
+        header("Location: login.php?message=" . urlencode($e));
+        exit();
+    }
 	if (array_key_exists('eleve', $_POST)  && array_key_exists('cours', $_POST) && array_key_exists('present', $_POST)){
 			if($_POST['present']==1) {
 				$prof->setElevePresent($_POST['cours'],$_POST['eleve']);
