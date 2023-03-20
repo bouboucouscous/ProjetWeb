@@ -399,11 +399,14 @@
         }
 
         protected function getListCoursById($id){
-            $resultat = $this->requeteSelectSQL("idCours, NomCours, date",
-                                                "Cours",
-                                                "idProf",
-                                                $id);
-            return $resultat;
+            $sqlQuery =" Select idCours, NomCours, date";
+            $sqlQuery .=" From Cours";
+            $sqlQuery .=" WHERE idProf = :id";
+            $sqlQuery .=" ORDER BY date DESC";
+            $statement = self::$Connexion->prepare($sqlQuery);
+            $statement->bindParam(":id",$id);
+            $statement->execute();
+            return $statement->fetchAll(PDO::FETCH_ASSOC);
         }
 
         protected function getFicheAppelById($id){

@@ -90,7 +90,6 @@ function UpdateClasse(e, id) {
 }
 
 function traiterReponseDemande2(donnees) {
-  console.log(donnees);
   if (donnees == "Identifiant invalide") {
     alert(donnees);
   }
