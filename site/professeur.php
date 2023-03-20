@@ -1,3 +1,20 @@
+<?php
+  include_once('../class/Cprofesseur.php');
+  session_start();
+  $username = $_SESSION["username"];
+  $password = $_SESSION["password"];
+  
+  try {
+    $prof = new Professeur($username,$password);
+  } catch (Exception $e) {
+    $message = "Utilisateur incorrect";
+    header("Location: login.php?message=" . urlencode($message));;
+    exit();
+  }
+  $nom = $prof->GetNomPrenom()[0]["nom"];
+  $prenom = $prof->GetNomPrenom()[0]["prenom"];
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
   <head>
@@ -6,44 +23,29 @@
     <link rel="stylesheet" href="CSS/bootstrap.min.css">
     <link rel="stylesheet" href="CSS/background.css">
     <link rel="stylesheet" href="CSS/user.css">
-    <link rel="stylesheet" href="CSS/professeur.css">
+    <link rel="stylesheet" href="CSS/etudiant.css">
     <script src="JS/script.js"></script>
     <script src="JS/jquery-3.6.3.min.js"></script>
 
 </head>
 <body>
     <div class="barreHaut">
-        <div class="noirCestNoir" onclick="openNav()" style="cursor:pointer">
-            <div><img src="CSS/image/profile2.jpg" class="ppProfile"></div>
+        <div>
             <div class="user">
-                <div class="nom">Dijoux</div>
-                <div class="prenom">Rémi &#9207;
-                </div>                
+                <div class="nom"><?php echo $nom;?></div>
+                <div class="prenom"><?php echo $prenom;?> </div>
             </div>
         </div>
-        <div class="titre">Appel</div>
+        <div class="titre">Relevé d'absence</div>
         <div><img src="CSS/image/3il_Logo.png" class="logo"></div>
     </div>
-    <div id="MENU" class="MENU">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">Lundi</a>
-        <a href="#">Mardi</a>
-        <a href="#">Mercredi</a>        
-        <a href="#">Jeudi</a>        
-        <a href="#">Vendredi</a>
-        <a href="#">Historique d'appel</a>
-    </div>
-
     <div class="carreblanc">
       <div id="cours">
        <?php
 include_once('../class/Cprofesseur.php');
 
 try {
-    $prof = new Professeur("ChervyH","123456");
-
     $cours = $prof->getListCours();
-
     foreach ($cours as $row) {
         echo "<p><a href=\"?cours=".$row['NomCours']."\">Nom Cours : ".$row['NomCours']."</a></p>";
         echo "<p>Date : ".$row['date']."</p>";
