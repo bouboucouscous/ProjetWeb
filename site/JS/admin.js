@@ -129,6 +129,7 @@ function cleanTab() {
 }
 
 function AddUserToClasse(){
+  cleanTab();
   try {
     DeleteUserToClasse(null, "nouveau")
   } catch (error) {}
