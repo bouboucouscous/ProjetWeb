@@ -21,27 +21,19 @@
         <div><img src="CSS/image/3il_Logo.png" class="logo"></div>
     </div>
     <div class="carreblanc">
-        <div class="date">DD/MM/YYYY</div> 
-        <ul class="listeCours">
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-        </ul>
-        <div class="date">DD/MM/YYYY</div> 
-        <ul class="listeCours">
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-        </ul>
-        <div class="date">DD/MM/YYYY</div> 
-        <ul class="listeCours">
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>            
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-            <li class="cours">HH/MM - M.Titi au cours de mathédessin </li>
-        </ul>
+        <?php
+            include_once('../class/Celeve.php'); 
+            try{
+                $eleve = new Eleve("CoussyR", "123456"); 
+                $presence = $eleve->getFicheAppel(); 
+                foreach ($presence as $row){
+                    echo "<p><a href=\"?presence=".$row['presence']."\">Presence : ".$row['presence']."</a></p>";
+                    echo "<p>Cours: ".$row['idCours']."</p>";
+                    }
+                }catch(Exception $e){
+
+                }
+            ?>
     </div>
 </body>
 </html>
