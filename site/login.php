@@ -26,7 +26,7 @@
 </head>
 <body>
   <div class="carrecolorer">
-    <form action="connexion.php" method="POST">
+    <form action="function/connexion.php" method="POST">
       <img src="CSS/image/3il_Logo.png" class="logo">
       <br><br>
       <?php echo '<div id="errorMessage" style="text-align: center; font-size: 25px; font-weight: bold;">'.$message.'</div>'?>
@@ -40,3 +40,6 @@
       <input class="buttonCo" type="submit" id='submit' value='Connexion' >
     </form>
     <a href="oublieMDP.php" class="mdpOublie">Mot de passe oublié?</a>
+  </div>
+</body>
+</html>
