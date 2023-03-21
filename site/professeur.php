@@ -67,37 +67,39 @@
                     ?>
                 </tbody>
             </table>
-            <table>
-                <thead>
-                <tr><th colspan="2"><?php echo "Liste d'appel pour le cours ".$_GET['cours']."";?></th></tr>
-                    <th>Eleve</th>
-                    <th>Présence</th>
-                </thead>
-                <tbody>
-                    <?php
-                            if(isset($_GET['cours'])){
-                                $appel = $prof->getListAppelProfByCours($_GET['cours']);
-                                foreach ($appel as $row) 
+            <?php 
+                if(isset($_GET['cours']))
+                { ?>
+                <table>
+                    <thead>
+                    <tr><th colspan="2"><?php echo "Liste d'appel pour le cours ".$_GET['cours']."";?></th></tr>
+                        <th>Eleve</th>
+                        <th>Présence</th>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $appel = $prof->getListAppelProfByCours($_GET['cours']);
+                            foreach ($appel as $row) 
+                            {
+                                echo "<tr>";
+                                echo '<td>'.$row['identifiantLogin'].'</td>';
+                                echo '<td>'."<input type='checkbox' onclick=\"setPresence('".$_GET['cours']."','".$row['identifiantLogin']."',this)\"";
+                                if($row['presence']==1)
                                 {
-                                    echo "<tr>";
-                                    echo '<td>'.$row['identifiantLogin'].'</td>';
-                                    echo '<td>'."<input type='checkbox' onclick=\"setPresence('".$_GET['cours']."','".$row['identifiantLogin']."',this)\"";
-                                    if($row['presence']==1)
-                                    {
-                                        echo "checked";
-                                    }
-                                    echo '></td>';
-                                    echo '</tr>';
+                                    echo "checked";
                                 }
-                            }
-                        } 
-                        catch(Exception $e) 
-                        {
-                            echo $e->getMessage();
-                        }
-                    ?>
-                </tbody>
-            </table>
+                                echo '></td>';
+                                echo '</tr>';
+                            }                            
+                        ?>
+                    </tbody>
+                </table>
+            <?php }
+            }
+            catch(Exception $e) 
+            {
+                echo $e->getMessage();
+            } ?>
         </div>
     </div>
 </body>
