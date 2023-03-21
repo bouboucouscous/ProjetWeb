@@ -12,6 +12,15 @@ if(isset($_POST["username"]) && isset($_POST["password"])){
         exit();
     }
     session_start();
+
+     // Vérifier si le formulaire a été soumis et si le jeton CSRF est valide
+     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            $message = "Erreur.";
+            header("Location: ../login.php?message=" . urlencode($message));
+            exit();
+        }
+    }
     $_SESSION["username"] = $username;
     $_SESSION["password"] = $password;
     switch ($role) {
