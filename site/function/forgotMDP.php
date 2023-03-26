@@ -4,8 +4,8 @@ if (isset($_POST["username"]))
     if (isset($_POST["email"])) 
     {
         //si nom et le mail associé exite
-        $login = new Clogin();
-        if(true)
+        $login = new LoginNoPass($_POST["username"]);
+        if($login->LoginNoPassExist($_POST["email"]))
         {   
             $to=$_POST["email"];
             $subject="Restauration mot de passe";

@@ -25,71 +25,91 @@ include_once('../class/Cadmin.php');
     <script src="JS/admin.js"></script>
 </head>
 <body>
-    <div class="barreHaut">
-    <?php include "template/leftMenu.php";?>
-    <div class="carreblanc" style="column-count: 3;">
-      <form action="function/manageClasse.php?cree=1" method="POST">
-        <input type="text" placeholder="Nom de la classe" name="nom" required> 
-        <br>
-        <input type="submit" id='submit' value='Créer'>
-      </form>
-      <div class="ensemble">
-        <table class="tableauClasse" style="position:relative;">
-          <thead>
-            <th style="display:none">ID</th>
-            <th>Nom</th>
-            <th>Nombre Élève</th>
-          </thead>
-          <tbody>
-            <tr onclick="UpdateClasse(this,'nouveau')">
-              <td>...</td>
-              <td>...</td>
-            </tr>
-            <?php
-            $tab = $Admin->getListClasse();
-            foreach ($tab as $key => $value) {            
-              echo '<tr onclick="UpdateClasse(this,\''.$value["idCLasse"].'\')">';
-              echo '<td>'.$value["idCLasse"].'</td>';
-              echo '<td>'.$Admin->getNbELeveFromClasse($value["idCLasse"]).'</td>';
-              echo '</tr>';
+  <div class="barreHaut">
+  <?php include "template/leftMenu.php";?>
+  <dialog id="favDialog">
+    <form method="dialog">
+      <p><label>Choisir élève :
+        <select>
+          <?php
+            $listEleve = $Admin->getListUser();
+            foreach ($listEleve as $key => $value) {
+              echo "<option>";
+              echo $value["identifiantLogin"]." ".$value["role"];
+              echo "</option>";
             }
-            ?> 
-          </tbody>
-        </table>
-        <br>
-        <form class="delete" action="function/deleteClasse.php" method="GET" >
-          <input hidden name="id" value="">
-          <input disabled type="submit" id='submit' value='Supprimer Classe'>
-        </form>      
-        <?php      
-          $message="";
-          if (isset($_GET["message"])) 
-          {
-              $message = $_GET["message"];
-          }
-          echo '<div class="msg">'.$message.'</div>';
-        ?>
-      </div>
-      <table id="tableauEleveParClasse">
+          ?>
+        </select>
+      </label></p>
+      <menu>
+        <button value="cancel">Annuler</button>
+        <button id="confirmBtn" value="default" onclick="addusertoClass2()">Confirmer</button>
+      </menu>
+    </form>
+  </dialog>
+  <div class="carreblanc" style="column-count: 3;">
+    <form action="function/manageClasse.php?cree=1" method="POST">
+      <input type="text" placeholder="Nom de la classe" name="nom" required> 
+      <br>
+      <input type="submit" id='submit' value='Créer'>
+    </form>
+    <div class="ensemble">
+      <table class="tableauClasse" style="position:relative;">
         <thead>
-          <th>ID</th>
+          <th style="display:none">ID</th>
           <th>Nom</th>
-          <th>Prénom</th>
+          <th>Nombre Élève</th>
         </thead>
         <tbody>
-          <tr onclick="AddUserToClasse()">
-            <td style="display:none">0</td>
-            <td>...</td>
+          <tr onclick="UpdateClasse(this,'nouveau')">
             <td>...</td>
             <td>...</td>
           </tr>
+          <?php
+          $tab = $Admin->getListClasse();
+          foreach ($tab as $key => $value) {            
+            echo '<tr onclick="UpdateClasse(this,\''.$value["idCLasse"].'\')">';
+            echo '<td>'.$value["idCLasse"].'</td>';
+            echo '<td>'.$login->getNbELeveFromClasse($value["idCLasse"]).'</td>';
+            echo '</tr>';
+          }
+          ?> 
         </tbody>
       </table>
       <br>
-      <form class="delete" action="function/deleteEleveByClasse.php" method="GET" >
-        <input hidden name="idClasse" value="">
-        <input hidden name="idEleve" value="">
-        <input disabled type="submit" id='submit' value='Supprimer Eleve de la classe'>
+      <form class="delete" action="function/deleteClasse.php" method="GET" >
+        <input hidden name="id" value="">
+        <input disabled type="submit" id='submit' value='Supprimer Classe'>
       </form>      
-</body>
+      <?php      
+        $message="";
+        if (isset($_GET["message"])) 
+        {
+            $message = $_GET["message"];
+        }
+        echo '<div class="msg">'.$message.'</div>';
+      ?>
+    </div>
+    <table id="tableauEleveParClasse">
+      <thead>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+      </thead>
+      <tbody>
+        <tr onclick="AddUserToClasse()">
+          <td style="display:none">0</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <form class="delete" action="function/deleteEleveByClasse.php" method="GET" >
+      <input hidden name="idClasse" value="">
+      <input hidden name="idEleve" value="">
+      <input disabled type="submit" id='submit' value='Supprimer Eleve de la classe'>
+    </form>    
+  </body>
 </html>
