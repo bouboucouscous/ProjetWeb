@@ -128,14 +128,17 @@ function cleanTab() {
 }
 
 function AddUserToClasse(){
-  cleanTab();
+  let favDialog = document.getElementById('favDialog'); 
   try {
     DeleteUserToClasse(null, "nouveau")
   } catch (error) {}
   if (idClasse != null) 
   {
-    reponse = prompt("Ajouter identifiant de l'élève", "identifiantEleve");
-    $.get("function/addEleveToClasse.php?idClasse="+idClasse+"&idEleve="+reponse,traiterReponseDemande2);
+    if (typeof favDialog.showModal === "function") {
+      favDialog.showModal();
+    } else {
+      alert("L'API <dialog> n'est pas prise en charge par ce navigateur.");
+    }
   } 
   else 
   {
@@ -143,17 +146,23 @@ function AddUserToClasse(){
   }
 }
 
+function addusertoClass2()
+{  
+  $.get("function/addEleveToClasse.php?idClasse="+idClasse+"&idEleve="+document.querySelector('select').value.split(" ")[0],traiterReponseDemande2);
+  cleanTab();
+}
+
 function DeleteUserToClasse(e, id)
 {
   if (id == "nouveau") {
-    document.forms[2].elements[2].disabled = true;
+    document.forms[3].elements[2].disabled = true;
     lastRow3.style.background = "rgb(255, 255, 255)";
     lastRow3 = null;
   }
   else {
-    document.forms[2].elements[2].disabled = false;
-    document.forms[2].elements[0].value = idClasse;
-    document.forms[2].elements[1].value = id;
+    document.forms[3].elements[2].disabled = false;
+    document.forms[3].elements[0].value = idClasse;
+    document.forms[3].elements[1].value = id;
     if (lastRow3 != null) {
       lastRow3.style.background = "rgb(255, 255, 255)"
     }

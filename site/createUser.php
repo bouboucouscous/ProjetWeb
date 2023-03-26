@@ -42,7 +42,7 @@
               <option value="Professeur">Professeur</option>              
               <option value="Admin">Admin</option>
             </select>
-          </div>          
+          </div>
           <input type="password" placeholder="Mot de passe" name="password" required>
           <input hidden name="id" value="">     
           <input type="submit" id='submit' value='Créer'>
